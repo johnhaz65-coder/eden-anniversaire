@@ -1,0 +1,892 @@
+/* =====================================================
+   EDEN INVITATION — MINNIE POOL PARTY
+   ===================================================== */
+
+/* ---- CSS VARIABLES ---- */
+:root {
+  --pink:       #FF69B4;
+  --hot-pink:   #E8006E;
+  --dark-pink:  #C0005A;
+  --black:      #1A1A1A;
+  --pool-blue:  #87CEEB;
+  --white:      #FFFFFF;
+  --cream:      #FFF0F5;
+  --red-bow:    #CC0044;
+  --shadow:     rgba(200, 0, 90, 0.25);
+}
+
+/* ---- RESET & BASE ---- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background-color: var(--pink);
+  color: var(--black);
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ---- CONFETTI CANVAS ---- */
+#confetti-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ---- ANIMATED DOTS BACKGROUND ---- */
+.dots-bg {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.55) 3px, transparent 3px);
+  background-size: 40px 40px;
+  animation: drift 8s ease-in-out infinite alternate;
+}
+
+@keyframes drift {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-20px); }
+}
+
+/* ---- WATER SPLASHES ---- */
+.splash {
+  position: fixed;
+  border-radius: 50% 40% 60% 50% / 60% 50% 40% 50%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.12;
+  animation: splashFloat 10s ease-in-out infinite alternate;
+}
+.splash-1 {
+  width: 280px; height: 200px;
+  background: var(--pool-blue);
+  bottom: -60px; left: -60px;
+  animation-delay: 0s;
+}
+.splash-2 {
+  width: 200px; height: 150px;
+  background: var(--pool-blue);
+  top: 30%; right: -50px;
+  animation-delay: 3s;
+}
+.splash-3 {
+  width: 160px; height: 120px;
+  background: var(--pool-blue);
+  top: 60%; left: 10%;
+  animation-delay: 6s;
+}
+@keyframes splashFloat {
+  0%   { transform: scale(1) rotate(0deg); }
+  100% { transform: scale(1.1) rotate(15deg); }
+}
+
+/* =====================================================
+   SECTION 1 — HERO
+   ===================================================== */
+.hero {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px 60px;
+  text-align: center;
+  gap: 16px;
+}
+
+/* --- Mickey Ears --- */
+.mickey-ears {
+  position: relative;
+  width: 180px;
+  height: 90px;
+  margin-bottom: -20px;
+}
+.ear {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background: var(--black);
+  border-radius: 50%;
+  top: 0;
+}
+.ear-left  { left: 0; }
+.ear-right { right: 0; }
+.ear-center {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 50px;
+  background: var(--black);
+  border-radius: 50px 50px 0 0;
+}
+
+/* --- Minnie Bow --- */
+.minnie-bow {
+  width: 180px;
+  animation: bounce 1.6s ease-in-out infinite, wiggle 3s ease-in-out infinite;
+  filter: drop-shadow(0 4px 12px rgba(200,0,68,0.4));
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25%       { transform: rotate(-5deg); }
+  75%       { transform: rotate(5deg); }
+}
+
+/* --- Invite Text --- */
+.hero-invite-text {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: clamp(0.85rem, 3vw, 1.1rem);
+  color: var(--white);
+  text-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  letter-spacing: 0.05em;
+}
+
+/* --- Photo --- */
+.photo-wrapper {
+  position: relative;
+  width: 160px;
+  height: 160px;
+}
+.eden-photo {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 7px solid var(--white);
+  box-shadow: 0 0 0 5px var(--hot-pink), 0 8px 30px rgba(0,0,0,0.25);
+  display: block;
+  animation: photoPulse 3s ease-in-out infinite;
+}
+.eden-photo-placeholder {
+  display: none;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  border: 7px solid var(--white);
+  box-shadow: 0 0 0 5px var(--hot-pink), 0 8px 30px rgba(0,0,0,0.25);
+  background: var(--cream);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 2rem;
+  color: var(--hot-pink);
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-align: center;
+}
+.eden-photo-placeholder span:first-child { font-size: 2.5rem; }
+
+@keyframes photoPulse {
+  0%, 100% { box-shadow: 0 0 0 5px var(--hot-pink), 0 8px 30px rgba(0,0,0,0.25); }
+  50%       { box-shadow: 0 0 0 9px var(--pink), 0 8px 40px rgba(232,0,110,0.4); }
+}
+
+/* --- Eden Name --- */
+.eden-name {
+  font-family: 'Pacifico', cursive;
+  font-size: clamp(3.5rem, 15vw, 6rem);
+  background: linear-gradient(90deg, #FF69B4, #fff 30%, #E8006E 50%, #fff 70%, #FF69B4);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s linear infinite;
+  text-shadow: none;
+  filter: drop-shadow(0 4px 10px rgba(200,0,90,0.35));
+}
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+/* --- Age --- */
+.age-text {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: clamp(1.1rem, 4vw, 1.5rem);
+  color: var(--white);
+  text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.age-number {
+  font-family: 'Pacifico', cursive;
+  font-size: 1.5em;
+  color: var(--white);
+  display: inline-block;
+  animation: bounce 1s ease-in-out infinite;
+}
+
+/* --- Theme Label --- */
+.theme-label {
+  font-family: 'Pacifico', cursive;
+  font-size: clamp(1rem, 4vw, 1.4rem);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(4px);
+  border: 2px solid rgba(255,255,255,0.5);
+  border-radius: 50px;
+  padding: 10px 24px;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* --- Decorative emojis --- */
+.hero-decos {
+  display: flex;
+  gap: 12px;
+  font-size: 1.6rem;
+}
+.deco {
+  display: inline-block;
+  animation: float 3s ease-in-out infinite;
+}
+.deco-1 { animation-delay: 0s; }
+.deco-2 { animation-delay: 0.4s; }
+.deco-3 { animation-delay: 0.8s; }
+.deco-4 { animation-delay: 1.2s; }
+.deco-5 { animation-delay: 1.6s; }
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%       { transform: translateY(-8px) rotate(5deg); }
+}
+
+/* --- CTA Button --- */
+.btn-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: clamp(0.9rem, 3.5vw, 1.1rem);
+  text-decoration: none;
+  color: var(--hot-pink);
+  background: var(--white);
+  border: none;
+  border-radius: 60px;
+  padding: 16px 32px;
+  box-shadow: 0 6px 25px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.8);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  letter-spacing: 0.05em;
+}
+.btn-cta:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 10px 35px rgba(0,0,0,0.25);
+}
+.btn-cta:active { transform: scale(0.97); }
+.arrow-down {
+  display: inline-block;
+  animation: bounceDown 1.4s ease-in-out infinite;
+}
+@keyframes bounceDown {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(5px); }
+}
+
+/* =====================================================
+   TICKER
+   ===================================================== */
+.ticker-wrapper {
+  position: relative;
+  z-index: 2;
+  background: var(--black);
+  color: var(--pink);
+  overflow: hidden;
+  padding: 14px 0;
+  white-space: nowrap;
+  border-top: 3px solid var(--hot-pink);
+  border-bottom: 3px solid var(--hot-pink);
+}
+.ticker-track {
+  display: inline-block;
+  animation: tickerScroll 22s linear infinite;
+  white-space: nowrap;
+}
+.ticker-item {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: clamp(0.85rem, 2.5vw, 1rem);
+  letter-spacing: 0.08em;
+  padding: 0 8px;
+}
+.ticker-sep {
+  color: var(--hot-pink);
+  font-size: 1.2em;
+  padding: 0 6px;
+}
+@keyframes tickerScroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* =====================================================
+   SHARED SECTION STYLES
+   ===================================================== */
+.section {
+  position: relative;
+  z-index: 1;
+  padding: 70px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.section-title {
+  font-family: 'Pacifico', cursive;
+  font-size: clamp(1.6rem, 6vw, 2.4rem);
+  color: var(--white);
+  text-align: center;
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  text-shadow: 0 3px 12px rgba(0,0,0,0.2);
+}
+.bow-small { font-size: 1.2rem; }
+
+/* =====================================================
+   SECTION 3 — PROGRAMME
+   ===================================================== */
+.programme { padding-top: 80px; }
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+.card {
+  background: var(--white);
+  border-radius: 24px;
+  padding: 32px 24px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(200,0,90,0.18);
+  border: 3px solid rgba(255,105,180,0.3);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 48px rgba(200,0,90,0.25);
+}
+.card-icon {
+  font-size: 2.8rem;
+  margin-bottom: 12px;
+  display: block;
+}
+.card-title {
+  font-family: 'Pacifico', cursive;
+  font-size: 1.15rem;
+  color: var(--hot-pink);
+  margin-bottom: 10px;
+}
+.card-date {
+  font-weight: 900;
+  font-size: 0.9rem;
+  color: var(--dark-pink);
+  margin-bottom: 6px;
+}
+.card-location {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #555;
+  margin-bottom: 8px;
+}
+.card-desc {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--hot-pink);
+}
+.card-decos {
+  margin-top: 12px;
+  font-size: 1.3rem;
+  letter-spacing: 4px;
+}
+
+/* Flamingo row */
+.flamingo-row {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 50px;
+}
+.flamingo {
+  width: 60px;
+  height: auto;
+  animation: flamingoSway 3s ease-in-out infinite;
+}
+.flamingo-mirror {
+  transform: scaleX(-1);
+  animation-delay: 1.2s;
+}
+@keyframes flamingoSway {
+  0%, 100% { transform: rotate(-6deg); }
+  50%       { transform: rotate(6deg); }
+}
+.flamingo-mirror { transform: scaleX(-1) rotate(-6deg); }
+
+/* =====================================================
+   SECTION 4 — COUNTDOWN
+   ===================================================== */
+.countdown-section {
+  max-width: 100%;
+  padding: 0;
+}
+.countdown-inner {
+  background: var(--black);
+  padding: 60px 20px;
+  text-align: center;
+}
+.countdown-label {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: clamp(1rem, 4vw, 1.3rem);
+  color: var(--pink);
+  letter-spacing: 0.1em;
+  margin-bottom: 30px;
+}
+.countdown-grid {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.countdown-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 70px;
+}
+.countdown-number {
+  font-family: 'Pacifico', cursive;
+  font-size: clamp(2.5rem, 10vw, 4.5rem);
+  color: var(--pink);
+  line-height: 1;
+  background: rgba(255,105,180,0.1);
+  border: 3px solid rgba(255,105,180,0.4);
+  border-radius: 16px;
+  min-width: 80px;
+  text-align: center;
+  padding: 12px 8px;
+  display: block;
+  text-shadow: 0 0 20px rgba(255,105,180,0.5);
+}
+.countdown-unit {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 0.15em;
+}
+.countdown-sep {
+  font-family: 'Pacifico', cursive;
+  font-size: clamp(2rem, 8vw, 3.5rem);
+  color: var(--hot-pink);
+  line-height: 1;
+  padding-top: 10px;
+  animation: blinkSep 1s step-end infinite;
+}
+@keyframes blinkSep {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.2; }
+}
+.countdown-footer {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.5);
+  margin-top: 24px;
+  letter-spacing: 0.05em;
+}
+
+/* =====================================================
+   SECTION 5 — RSVP
+   ===================================================== */
+.rsvp-section { max-width: 600px; }
+
+.rsvp-deadline {
+  text-align: center;
+  font-weight: 900;
+  font-size: 0.95rem;
+  color: var(--white);
+  margin-bottom: 32px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 30px;
+  padding: 10px 20px;
+  display: inline-block;
+  width: 100%;
+}
+
+/* Form */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.form-group {
+  width: 100%;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+input, select, textarea {
+  width: 100%;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 16px 20px;
+  border: 3px solid rgba(255,255,255,0.5);
+  border-radius: 16px;
+  background: rgba(255,255,255,0.92);
+  color: var(--black);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+input::placeholder, textarea::placeholder { color: #aaa; }
+input:focus, select:focus, textarea:focus {
+  border-color: var(--hot-pink);
+  box-shadow: 0 0 0 3px rgba(232,0,110,0.2);
+}
+textarea { resize: vertical; min-height: 80px; }
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23E8006E' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 44px;
+  cursor: pointer;
+}
+
+.btn-submit {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 1.05rem;
+  letter-spacing: 0.05em;
+  color: var(--white);
+  background: linear-gradient(135deg, var(--hot-pink), var(--dark-pink));
+  border: none;
+  border-radius: 60px;
+  padding: 18px 32px;
+  cursor: pointer;
+  box-shadow: 0 6px 25px rgba(200,0,90,0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+  margin-top: 6px;
+}
+.btn-submit:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 35px rgba(200,0,90,0.5);
+}
+.btn-submit:active { transform: scale(0.97); }
+.btn-submit:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+
+/* Success message */
+.rsvp-success {
+  text-align: center;
+  padding: 40px 24px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 24px;
+  border: 3px solid rgba(255,255,255,0.5);
+}
+.success-icon {
+  font-size: 4rem;
+  margin-bottom: 16px;
+  animation: bounce 1s ease-in-out infinite;
+}
+.rsvp-success h3 {
+  font-family: 'Pacifico', cursive;
+  font-size: 1.5rem;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+.rsvp-success p {
+  font-weight: 700;
+  color: rgba(255,255,255,0.8);
+}
+
+/* ═══════════════════ GALERIE ═══════════════════ */
+
+.section-galerie {
+  padding: 60px 20px;
+  text-align: center;
+  background: linear-gradient(180deg, #FFF0F5 0%, #FFD6E8 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* pois décoratifs en fond */
+.section-galerie::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, #E8006E18 6px, transparent 6px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+.section-galerie .section-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.section-galerie h2 {
+  font-family: 'Pacifico', cursive;
+  font-size: clamp(2rem, 6vw, 3rem);
+  color: #E8006E;
+  text-shadow: 2px 2px 0 #fff, 4px 4px 0 rgba(232,0,110,0.2);
+}
+
+.bow-icon {
+  font-size: 2rem;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+/* Grid 2 colonnes sur desktop, 1 sur mobile */
+.galerie-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  max-width: 800px;
+  margin: 0 auto 32px;
+}
+
+@media (max-width: 600px) {
+  .galerie-grid {
+    grid-template-columns: 1fr;
+    max-width: 340px;
+  }
+}
+
+/* Card générique */
+.galerie-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  animation: fadeInUp 0.6s ease both;
+}
+
+.galerie-card--main  { animation-delay: 0.1s; }
+.galerie-card--minnie { animation-delay: 0.25s; }
+
+/* Cadre photo Eden — forme portrait arrondie */
+.galerie-frame {
+  width: 100%;
+  aspect-ratio: 3/4;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 6px solid #E8006E;
+  box-shadow:
+    0 0 0 4px #fff,
+    0 0 0 8px #E8006E,
+    0 20px 50px rgba(232,0,110,0.3);
+  background: #FFD6E8;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.galerie-frame:hover {
+  transform: scale(1.03) rotate(-1deg);
+  box-shadow:
+    0 0 0 4px #fff,
+    0 0 0 8px #E8006E,
+    0 30px 70px rgba(232,0,110,0.45);
+}
+
+.galerie-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+/* Cadre Minnie — fond blanc, image centrée */
+.galerie-frame--minnie {
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  border-color: #1A1A1A;
+  box-shadow:
+    0 0 0 4px #fff,
+    0 0 0 8px #1A1A1A,
+    0 20px 50px rgba(0,0,0,0.25);
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.galerie-frame--minnie:hover {
+  transform: scale(1.05) rotate(2deg);
+}
+
+.galerie-frame--minnie img {
+  object-fit: contain;
+  padding: 10px;
+}
+
+/* Caption sous chaque photo */
+.galerie-caption {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: #C0005A;
+  background: rgba(255,255,255,0.85);
+  border: 2px solid #E8006E;
+  border-radius: 50px;
+  padding: 6px 18px;
+}
+
+/* Quote en bas de section */
+.galerie-quote {
+  font-family: 'Pacifico', cursive;
+  font-size: clamp(1rem, 3.5vw, 1.3rem);
+  color: #E8006E;
+  background: rgba(255,255,255,0.7);
+  border-radius: 16px;
+  padding: 14px 28px;
+  display: inline-block;
+  box-shadow: 0 4px 20px rgba(232,0,110,0.15);
+  margin-top: 8px;
+}
+
+/* Animation fade depuis le bas */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* =====================================================
+   FOOTER
+   ===================================================== */
+.footer {
+  position: relative;
+  z-index: 1;
+  background: var(--black);
+  text-align: center;
+  padding: 50px 20px;
+}
+.footer-name {
+  font-family: 'Pacifico', cursive;
+  font-size: clamp(1.2rem, 5vw, 1.8rem);
+  color: var(--pink);
+  margin-bottom: 16px;
+}
+.footer-bows {
+  font-size: 1.5rem;
+  letter-spacing: 8px;
+  margin-bottom: 16px;
+}
+.footer-quote {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.5);
+  font-style: italic;
+}
+
+/* =====================================================
+   MUSIC BUTTON
+   ===================================================== */
+.music-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 100;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  background: var(--black);
+  color: var(--pink);
+  font-size: 1.4rem;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.music-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 28px rgba(0,0,0,0.4);
+}
+
+/* =====================================================
+   SCROLL REVEAL
+   ===================================================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =====================================================
+   SR-ONLY (accessibility)
+   ===================================================== */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* =====================================================
+   RESPONSIVE — MOBILE FIRST (iPhone 14: 390px)
+   ===================================================== */
+@media (max-width: 480px) {
+  .hero { padding: 30px 16px 50px; gap: 12px; }
+  .mickey-ears { width: 140px; height: 70px; }
+  .ear { width: 62px; height: 62px; }
+  .ear-center { width: 78px; height: 39px; }
+  .minnie-bow { width: 140px; }
+  .photo-wrapper, .eden-photo, .eden-photo-placeholder { width: 130px; height: 130px; }
+  .theme-label { font-size: 0.9rem; padding: 8px 16px; gap: 8px; }
+  .hero-decos { font-size: 1.3rem; gap: 8px; }
+  .btn-cta { padding: 14px 22px; font-size: 0.85rem; }
+
+  .countdown-number { min-width: 60px; font-size: 2.2rem; padding: 8px 4px; }
+  .countdown-sep { font-size: 1.8rem; }
+  .countdown-grid { gap: 4px; }
+  .countdown-block { min-width: 54px; }
+
+  .form-row { grid-template-columns: 1fr; }
+
+  .cards-grid { grid-template-columns: 1fr; }
+
+  .section { padding: 50px 16px; }
+  .countdown-inner { padding: 50px 16px; }
+}
+
+@media (max-width: 350px) {
+  .eden-name { font-size: 3rem; }
+}

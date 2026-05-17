@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🎀 Anniversaire Eden · 2 ans · Minnie Pool Party</title>
+
+  <!-- OG / WhatsApp preview -->
+  <meta property="og:title" content="🎀 Anniversaire Eden · 2 ans · Minnie Pool Party" />
+  <meta property="og:description" content="Tu es invité(e) à l'anniversaire d'Eden qui fête ses 2 ans ! 21 Juin 2026 · 15H · Minnie Pool Party 🦩" />
+  <meta property="og:image" content="https://TON-SITE.pages.dev/og-image.jpg" />
+  <meta property="og:url" content="https://TON-SITE.pages.dev" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="description" content="Tu es invité(e) à l'anniversaire d'Eden qui fête ses 2 ans ! 21 Juin 2026 · 15H · Minnie Pool Party 🦩" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@700;900&display=swap" rel="stylesheet" />
+
+  <!-- canvas-confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===================== CANVAS CONFETTI ===================== -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- ===================== POLKA DOTS FOND ANIMÉ ===================== -->
+  <div class="polka-bg" aria-hidden="true"></div>
+
+  <!-- ===================== SECTION HERO ===================== -->
+  <section class="hero" id="hero">
+
+    <!-- Minnie gauche -->
+    <img src="minnie.png" class="minnie-side minnie-left" alt="" aria-hidden="true" />
+    <!-- Minnie droite -->
+    <img src="minnie.png" class="minnie-side minnie-right" alt="" aria-hidden="true" />
+
+    <p class="hero-invite-text">✨ Tu es invité(e) à l'anniversaire de ✨</p>
+
+    <!-- Bloc photo : Mickey ears + photo + nœud -->
+    <div class="photo-bloc">
+
+      <!-- Oreilles Mickey géantes -->
+      <div class="mickey-ears-hero" aria-hidden="true">
+        <div class="ear ear-left"></div>
+        <div class="ear ear-right"></div>
+      </div>
+
+      <!-- Photo avec nœud Minnie en overlay -->
+      <div class="photo-wrapper">
+        <img src="eden_garden.jpg" alt="Eden" class="eden-photo"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'" />
+        <div class="eden-photo-placeholder">
+          <span>🎀</span>
+          <span>Photo d'Eden</span>
+        </div>
+
+        <!-- Nœud Minnie animé -->
+        <div class="minnie-bow-overlay" aria-hidden="true">
+          <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="60"  cy="50" rx="58" ry="38" fill="#CC0044"/>
+            <ellipse cx="60"  cy="50" rx="45" ry="28" fill="#E8006E"/>
+            <ellipse cx="140" cy="50" rx="58" ry="38" fill="#CC0044"/>
+            <ellipse cx="140" cy="50" rx="45" ry="28" fill="#E8006E"/>
+            <ellipse cx="100" cy="50" rx="20" ry="22" fill="#CC0044"/>
+            <ellipse cx="100" cy="50" rx="13" ry="15" fill="#E8006E"/>
+            <circle cx="45"  cy="42" r="5" fill="#CC0044" opacity="0.6"/>
+            <circle cx="70"  cy="62" r="4" fill="#CC0044" opacity="0.6"/>
+            <circle cx="130" cy="42" r="5" fill="#CC0044" opacity="0.6"/>
+            <circle cx="155" cy="62" r="4" fill="#CC0044" opacity="0.6"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <h1 class="eden-name">Eden</h1>
+    <p class="age-text">qui a <span class="age-number">2</span> ans !</p>
+
+    <div class="theme-label">
+      <span>🦩</span>
+      <span>Minnie Pool Party</span>
+      <span>🦩</span>
+    </div>
+
+    <div class="hero-decos" aria-hidden="true">
+      <span class="deco deco-1">🌴</span>
+      <span class="deco deco-2">💦</span>
+      <span class="deco deco-3">🦩</span>
+      <span class="deco deco-4">🌴</span>
+      <span class="deco deco-5">💦</span>
+    </div>
+
+    <a href="#programme" class="btn-cta">
+      <span>✉</span> OUVRIR L'INVITATION <span class="arrow-down">↓</span>
+    </a>
+
+  </section>
+
+  <!-- ============ SÉPARATEUR NŒUDS ============ -->
+  <div class="bow-divider" aria-hidden="true">
+    <span>🎀</span><span>🖤</span><span>🎀</span><span>🖤</span><span>🎀</span>
+  </div>
+
+  <!-- ===================== TICKER ===================== -->
+  <div class="ticker-wrapper" aria-label="Annonce de l'événement">
+    <div class="ticker-track">
+      <span class="ticker-item">🎀 ANNIVERSAIRE EDEN</span>
+      <span class="ticker-sep">·</span>
+      <span class="ticker-item">2 ANS</span>
+      <span class="ticker-sep">·</span>
+      <span class="ticker-item">MINNIE POOL PARTY</span>
+      <span class="ticker-sep">·</span>
+      <span class="ticker-item">21 JUIN 2026</span>
+      <span class="ticker-sep">·</span>
+      <span class="ticker-item">15H00</span>
+      <span class="ticker-sep">·</span>
+      <span class="ticker-item">🎀 ANNIVERSAIRE EDEN</span>
+      <span class="ticker-sep">·</span>
+      <span class="ticker-item">2 ANS</span>
+      <span class="ticker-sep">·</span>
+      <span class="ticker-item">MINNIE POOL PARTY</span>
+      <span class="ticker-sep">·</span>
+      <span class="ticker-item">21 JUIN 2026</span>
+      <span class="ticker-sep">·</span>
+      <span class="ticker-item">15H00</span>
+      <span class="ticker-sep">·</span>
+      <span class="ticker-item">🎀 ANNIVERSAIRE EDEN</span>
+      <span class="ticker-sep">·</span>
+      <span class="ticker-item">2 ANS</span>
+      <span class="ticker-sep">·</span>
+      <span class="ticker-item">MINNIE POOL PARTY</span>
+      <span class="ticker-sep">·</span>
+      <span class="ticker-item">21 JUIN 2026</span>
+      <span class="ticker-sep">·</span>
+      <span class="ticker-item">15H00</span>
+      <span class="ticker-sep">·</span>
+    </div>
+  </div>
+
+  <!-- ============ SÉPARATEUR NŒUDS ============ -->
+  <div class="bow-divider" aria-hidden="true">
+    <span>🎀</span><span>🖤</span><span>🎀</span><span>🖤</span><span>🎀</span>
+  </div>
+
+  <!-- ===================== PROGRAMME ===================== -->
+  <section class="section programme reveal" id="programme">
+    <h2 class="section-title">
+      <span class="bow-small" aria-hidden="true">🎀</span>
+      Le Programme
+      <span class="bow-small" aria-hidden="true">🎀</span>
+    </h2>
+
+    <div class="cards-grid">
+      <div class="card reveal">
+        <div class="card-icon">🎂</div>
+        <h3 class="card-title">Goûter d'anniversaire</h3>
+        <p class="card-date">21 Juin 2026 · 15H00</p>
+        <p class="card-location">📍 [Adresse à remplir]</p>
+        <p class="card-desc">✨ Gâteau, bonbons, surprises</p>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-icon">🏊</div>
+        <h3 class="card-title">Pool Party</h3>
+        <p class="card-date">21 Juin 2026 · dès 15H</p>
+        <p class="card-desc">✨ Jeux d'eau, bouées, flamants roses</p>
+        <div class="card-decos" aria-hidden="true">🦩 🌴 💦</div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-icon">🎮</div>
+        <h3 class="card-title">Jeux &amp; Fun</h3>
+        <p class="card-desc">✨ Animations, rires, cadeaux</p>
+        <div class="card-decos" aria-hidden="true">🎉 ⭐ 🎀</div>
+      </div>
+    </div>
+
+    <div class="flamingo-row" aria-hidden="true">
+      <svg class="flamingo" viewBox="0 0 80 140" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="40" cy="60" rx="18" ry="30" fill="#FF69B4"/>
+        <circle cx="40" cy="25" r="12" fill="#FF69B4"/>
+        <path d="M40 25 Q55 10 50 5 Q45 0 40 8" fill="#FF1493"/>
+        <rect x="35" y="88" width="6" height="40" rx="3" fill="#FF69B4"/>
+        <rect x="41" y="108" width="6" height="25" rx="3" fill="#FF69B4"/>
+        <ellipse cx="38" cy="128" rx="8" ry="4" fill="#FFB6C1"/>
+        <ellipse cx="47" cy="133" rx="8" ry="4" fill="#FFB6C1"/>
+      </svg>
+      <svg class="flamingo flamingo-mirror" viewBox="0 0 80 140" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="40" cy="60" rx="18" ry="30" fill="#FF69B4"/>
+        <circle cx="40" cy="25" r="12" fill="#FF69B4"/>
+        <path d="M40 25 Q55 10 50 5 Q45 0 40 8" fill="#FF1493"/>
+        <rect x="35" y="88" width="6" height="40" rx="3" fill="#FF69B4"/>
+        <rect x="41" y="108" width="6" height="25" rx="3" fill="#FF69B4"/>
+        <ellipse cx="38" cy="128" rx="8" ry="4" fill="#FFB6C1"/>
+        <ellipse cx="47" cy="133" rx="8" ry="4" fill="#FFB6C1"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ============ SÉPARATEUR NŒUDS ============ -->
+  <div class="bow-divider" aria-hidden="true">
+    <span>🎀</span><span>🖤</span><span>🎀</span><span>🖤</span><span>🎀</span>
+  </div>
+
+  <!-- ===================== GALERIE PHOTOS ===================== -->
+  <section id="galerie" class="section-galerie">
+
+    <div class="galerie-header">
+      <span class="bow-icon">🎀</span>
+      <h2 class="galerie-title">Eden &amp; Minnie</h2>
+      <span class="bow-icon">🎀</span>
+    </div>
+
+    <div class="galerie-grid">
+
+      <div class="polaroid galerie-card galerie-card--main">
+        <div class="polaroid-img">
+          <img src="eden_garden.jpg" alt="Eden en robe Minnie" loading="lazy" />
+        </div>
+        <div class="polaroid-caption">🌸 Eden, future star de la Pool Party !</div>
+      </div>
+
+      <div class="polaroid polaroid--minnie galerie-card galerie-card--minnie">
+        <div class="polaroid-img polaroid-img--minnie">
+          <img src="minnie.png" alt="Minnie Mouse" loading="lazy" />
+        </div>
+        <div class="polaroid-caption">🎀 Son idole... Minnie !</div>
+      </div>
+
+    </div>
+
+    <div class="galerie-quote">
+      ✨ « Qui porte la plus belle robe à pois ? » ✨
+    </div>
+
+  </section>
+
+  <!-- ============ SÉPARATEUR NŒUDS ============ -->
+  <div class="bow-divider" aria-hidden="true">
+    <span>🎀</span><span>🖤</span><span>🎀</span><span>🖤</span><span>🎀</span>
+  </div>
+
+  <!-- ===================== COUNTDOWN ===================== -->
+  <section class="section countdown-section reveal" id="countdown">
+    <div class="countdown-inner">
+      <p class="countdown-label">⏱ Plus que...</p>
+
+      <div class="countdown-grid">
+        <div class="countdown-block">
+          <span class="countdown-number" id="days">00</span>
+          <span class="countdown-unit">JOURS</span>
+        </div>
+        <div class="countdown-sep">:</div>
+        <div class="countdown-block">
+          <span class="countdown-number" id="hours">00</span>
+          <span class="countdown-unit">HEURES</span>
+        </div>
+        <div class="countdown-sep">:</div>
+        <div class="countdown-block">
+          <span class="countdown-number" id="minutes">00</span>
+          <span class="countdown-unit">MIN</span>
+        </div>
+        <div class="countdown-sep">:</div>
+        <div class="countdown-block">
+          <span class="countdown-number" id="seconds">00</span>
+          <span class="countdown-unit">SEC</span>
+        </div>
+      </div>
+
+      <p class="countdown-footer">jusqu'au grand jour · 21 Juin 2026 🎂</p>
+    </div>
+  </section>
+
+  <!-- ============ SÉPARATEUR NŒUDS ============ -->
+  <div class="bow-divider" aria-hidden="true">
+    <span>🎀</span><span>🖤</span><span>🎀</span><span>🖤</span><span>🎀</span>
+  </div>
+
+  <!-- ===================== RSVP ===================== -->
+  <section class="section rsvp-section reveal" id="rsvp">
+    <h2 class="section-title">
+      <span class="bow-small" aria-hidden="true">🎀</span>
+      Confirmez votre présence
+      <span class="bow-small" aria-hidden="true">🎀</span>
+    </h2>
+    <p class="rsvp-deadline">⚠️ Avant le 1er Juin 2026</p>
+
+    <form id="rsvp-form" action="https://formspree.io/f/XXXXXXXX" method="POST" novalidate>
+      <input type="hidden" name="_subject" value="🎀 RSVP Anniversaire Eden 2 ans" />
+      <input type="hidden" name="_next" value="" />
+
+      <div class="form-group">
+        <label for="name" class="sr-only">Prénom &amp; Nom</label>
+        <input type="text" id="name" name="name" placeholder="Prénom &amp; Nom" required />
+      </div>
+
+      <div class="form-group">
+        <label for="phone" class="sr-only">Téléphone</label>
+        <input type="tel" id="phone" name="phone" placeholder="Téléphone" />
+      </div>
+
+      <div class="form-group">
+        <label for="email" class="sr-only">Email</label>
+        <input type="email" id="email" name="email" placeholder="Email" />
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="adults" class="sr-only">Nombre d'adultes</label>
+          <select id="adults" name="adults">
+            <option value="" disabled selected>Nombre d'adultes</option>
+            <option value="1">1 adulte</option>
+            <option value="2">2 adultes</option>
+            <option value="3">3 adultes</option>
+            <option value="4">4 adultes</option>
+            <option value="5+">5+ adultes</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="children" class="sr-only">Nombre d'enfants</label>
+          <select id="children" name="children">
+            <option value="" disabled selected>Nombre d'enfants</option>
+            <option value="0">0 enfant</option>
+            <option value="1">1 enfant</option>
+            <option value="2">2 enfants</option>
+            <option value="3">3 enfants</option>
+            <option value="4">4 enfants</option>
+            <option value="5+">5+ enfants</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="message" class="sr-only">Message pour Eden</label>
+        <textarea id="message" name="message" placeholder="Un message pour Eden ? 💌 (optionnel)" rows="3"></textarea>
+      </div>
+
+      <button type="submit" class="btn-submit" id="submit-btn">
+        <span id="submit-text">🎀 CONFIRMER MA PRÉSENCE</span>
+        <span id="submit-loading" style="display:none">⏳ Envoi en cours...</span>
+      </button>
+    </form>
+
+    <div id="rsvp-success" class="rsvp-success" style="display:none" aria-live="polite">
+      <div class="success-icon">🎀</div>
+      <h3>Merci ! On t'attend le 21 Juin 🎀</h3>
+      <p>À très bientôt pour célébrer Eden !</p>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <img src="minnie.png" class="minnie-footer" alt="" aria-hidden="true" />
+    <p class="footer-name">❤️ Eden · 2 ans · 21 Juin 2026</p>
+    <div class="footer-bows" aria-hidden="true">🎀 🖤 🎀 🖤 🎀</div>
+    <p class="footer-quote">"Votre présence nous comblera de bonheur"</p>
+  </footer>
+
+  <!-- ===================== MUSIC BUTTON ===================== -->
+  <button class="music-btn" id="music-btn" aria-label="Activer/désactiver la musique" title="Musique">
+    🎵
+  </button>
+  <audio id="bg-music" loop preload="none">
+    <source src="music.mp3" type="audio/mpeg" />
+  </audio>
+
+  <script src="script.js"></script>
+</body>
+</html>
