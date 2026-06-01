@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🎀 Admin · Eden Pool Party</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --pink:     #FF69B4;
+      --pink-hot: #E8006E;
+      --pink-deep:#C0005A;
+      --gold:     #FFD700;
+      --white:    #ffffff;
+      --black:    #1A1A1A;
+      --green:    #22C55E;
+      --red:      #EF4444;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Nunito', sans-serif;
+      min-height: 100vh;
+      color: var(--black);
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: -1;
+      background: linear-gradient(160deg, #FFB6C1 0%, #FF69B4 35%, #FFC0CB 60%, #FFB6C1 100%);
+    }
+
+    /* ── PAGE DE MOT DE PASSE ── */
+    #gate {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .gate-card {
+      background: rgba(255,255,255,0.3);
+      backdrop-filter: blur(18px);
+      border-radius: 28px; padding: 44px 36px;
+      text-align: center; width: min(100%, 380px);
+      border: 2px solid rgba(255,255,255,0.6);
+      box-shadow: 0 16px 60px rgba(192,0,90,0.25);
+    }
+    .gate-icon { font-size: 3.5rem; margin-bottom: 12px; }
+    .gate-title {
+      font-family: 'Pacifico', cursive;
+      font-size: 1.8rem; color: var(--pink-deep);
+      text-shadow: 2px 2px 0 rgba(255,255,255,0.8);
+      margin-bottom: 6px;
+    }
+    .gate-sub { font-size: 0.9rem; font-weight: 700; color: rgba(255,255,255,0.85); margin-bottom: 28px; }
+    .gate-input {
+      width: 100%; padding: 16px 20px;
+      border: 2px solid rgba(232,0,110,0.3); border-radius: 14px;
+      background: rgba(255,255,255,0.88);
+      font-family: 'Nunito', sans-serif; font-size: 1.1rem; font-weight: 700;
+      outline: none; text-align: center; letter-spacing: 0.12em;
+      margin-bottom: 16px;
+    }
+    .gate-input:focus { border-color: var(--pink-hot); box-shadow: 0 0 0 3px rgba(232,0,110,0.15); }
+    .gate-btn {
+      width: 100%; padding: 16px;
+      font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 900;
+      color: #fff;
+      background: linear-gradient(135deg, var(--pink-hot), var(--pink-deep));
+      border: none; border-radius: 50px; cursor: pointer;
+      box-shadow: 0 6px 22px rgba(192,0,90,0.4), 0 0 0 3px rgba(255,215,0,0.35);
+      transition: transform 0.2s;
+    }
+    .gate-btn:hover { transform: translateY(-2px) scale(1.02); }
+    .gate-error {
+      margin-top: 12px; font-size: 0.86rem; font-weight: 900;
+      color: #C0005A; display: none;
+    }
+
+    /* ── DASHBOARD ── */
+    #dashboard { display: none; padding: 0 0 60px; }
+
+    .dash-header {
+      background: linear-gradient(135deg, var(--pink-hot), var(--pink-deep));
+      padding: 28px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+      border-bottom: 4px solid var(--gold);
+      box-shadow: 0 4px 24px rgba(192,0,90,0.35);
+    }
+    .dash-header h1 {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(1.4rem, 5vw, 2rem);
+      color: var(--white);
+      text-shadow: 2px 2px 0 rgba(192,0,90,0.4);
+    }
+    .dash-header-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn-action {
+      font-family: 'Nunito', sans-serif; font-weight: 900;
+      font-size: 0.85rem; padding: 10px 18px;
+      border-radius: 50px; border: none; cursor: pointer;
+      transition: transform 0.2s; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .btn-action:hover { transform: translateY(-2px); }
+    .btn-csv { background: var(--gold); color: var(--black); }
+    .btn-clear { background: rgba(255,255,255,0.25); color: var(--white); }
+    .btn-back { background: rgba(255,255,255,0.2); color: var(--white); }
+
+    .dash-inner { max-width: 980px; margin: 0 auto; padding: 28px 18px; }
+
+    /* ── STATS ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 14px; margin-bottom: 32px;
+    }
+    .stat-card {
+      background: rgba(255,255,255,0.32);
+      backdrop-filter: blur(12px);
+      border-radius: 20px; padding: 22px 16px;
+      text-align: center;
+      border: 2px solid rgba(255,255,255,0.5);
+      box-shadow: 0 8px 28px rgba(192,0,90,0.15);
+    }
+    .stat-number {
+      font-family: 'Pacifico', cursive;
+      font-size: 2.8rem; line-height: 1;
+      margin-bottom: 6px;
+    }
+    .stat-number.total   { color: var(--pink-deep); }
+    .stat-number.vient   { color: var(--green); }
+    .stat-number.nvient  { color: var(--red); }
+    .stat-number.guests  { color: #7C3AED; }
+    .stat-label {
+      font-weight: 900; font-size: 0.78rem;
+      color: rgba(255,255,255,0.85); letter-spacing: 0.08em; text-transform: uppercase;
+    }
+
+    /* ── SETUP FORMSPREE ── */
+    .setup-card {
+      background: rgba(255,255,255,0.28);
+      backdrop-filter: blur(12px);
+      border-radius: 20px; padding: 26px 24px;
+      margin-bottom: 28px;
+      border: 2px solid rgba(255,215,0,0.45);
+      box-shadow: 0 8px 28px rgba(192,0,90,0.12);
+    }
+    .setup-card h2 {
+      font-family: 'Pacifico', cursive;
+      font-size: 1.2rem; color: var(--pink-deep);
+      margin-bottom: 14px;
+    }
+    .setup-steps { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .setup-steps li {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-weight: 700; font-size: 0.88rem; color: rgba(255,255,255,0.9);
+    }
+    .step-num {
+      min-width: 26px; height: 26px;
+      background: linear-gradient(135deg, var(--pink-hot), var(--pink-deep));
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 0.75rem; font-weight: 900; flex-shrink: 0;
+    }
+    .setup-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 14px; padding: 12px 22px;
+      background: linear-gradient(135deg, var(--pink-hot), var(--pink-deep));
+      color: #fff; border-radius: 50px; text-decoration: none;
+      font-weight: 900; font-size: 0.9rem;
+      box-shadow: 0 4px 16px rgba(192,0,90,0.4);
+    }
+    .setup-link:hover { opacity: 0.9; }
+    .setup-status {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 16px; border-radius: 50px;
+      font-weight: 900; font-size: 0.82rem;
+    }
+    .setup-status.ok { background: rgba(34,197,94,0.25); color: #16A34A; border: 2px solid rgba(34,197,94,0.4); }
+    .setup-status.nok { background: rgba(239,68,68,0.2); color: #EF4444; border: 2px solid rgba(239,68,68,0.3); }
+
+    /* ── TABLE RSVPS ── */
+    .rsvp-table-card {
+      background: rgba(255,255,255,0.28);
+      backdrop-filter: blur(12px);
+      border-radius: 20px; overflow: hidden;
+      border: 2px solid rgba(255,255,255,0.45);
+      box-shadow: 0 8px 28px rgba(192,0,90,0.12);
+    }
+    .rsvp-table-header {
+      background: linear-gradient(135deg, rgba(232,0,110,0.55), rgba(192,0,90,0.55));
+      padding: 16px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .rsvp-table-header h2 {
+      font-family: 'Pacifico', cursive;
+      font-size: 1.1rem; color: var(--white);
+    }
+    .rsvp-count {
+      background: rgba(255,255,255,0.25);
+      color: #fff; font-weight: 900; font-size: 0.8rem;
+      padding: 4px 12px; border-radius: 50px;
+    }
+    .table-scroll { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    thead tr { background: rgba(255,255,255,0.18); }
+    th {
+      padding: 12px 14px; text-align: left;
+      font-size: 0.72rem; font-weight: 900;
+      color: rgba(255,255,255,0.8);
+      letter-spacing: 0.1em; text-transform: uppercase;
+      white-space: nowrap;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+    td {
+      padding: 13px 14px; font-size: 0.85rem; font-weight: 700;
+      color: rgba(255,255,255,0.92);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255,255,255,0.08); }
+    .badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 4px 10px; border-radius: 50px;
+      font-size: 0.76rem; font-weight: 900;
+    }
+    .badge.oui { background: rgba(34,197,94,0.25); color: #16A34A; border: 1px solid rgba(34,197,94,0.4); }
+    .badge.non { background: rgba(239,68,68,0.2); color: #EF4444; border: 1px solid rgba(239,68,68,0.3); }
+    .empty-state {
+      text-align: center; padding: 48px 20px;
+      font-weight: 900; color: rgba(255,255,255,0.65);
+    }
+    .empty-state .empty-icon { font-size: 3rem; margin-bottom: 12px; display: block; }
+
+    /* ── FORMSPREE DASHBOARD LINK ── */
+    .formspree-link {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+      margin-top: 24px; padding: 18px 22px;
+      background: rgba(255,255,255,0.25);
+      border-radius: 16px;
+      border: 2px solid rgba(255,215,0,0.35);
+    }
+    .formspree-link p { font-weight: 700; font-size: 0.88rem; color: rgba(255,255,255,0.9); }
+    .formspree-link a {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 10px 20px;
+      background: var(--gold); color: var(--black);
+      border-radius: 50px; text-decoration: none;
+      font-weight: 900; font-size: 0.85rem;
+    }
+
+    @media (max-width: 500px) {
+      th:nth-child(4), td:nth-child(4),
+      th:nth-child(7), td:nth-child(7) { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══ PORTE MOT DE PASSE ══ -->
+  <div id="gate">
+    <div class="gate-card">
+      <div class="gate-icon">🔒</div>
+      <h1 class="gate-title">Espace admin</h1>
+      <p class="gate-sub">Eden Pool Party · 21 Juin 2026</p>
+      <input type="password" class="gate-input" id="gate-input"
+             placeholder="••••••••" autocomplete="current-password"
+             onkeydown="if(event.key==='Enter')login()" />
+      <button class="gate-btn" onclick="login()">🎀 Accéder</button>
+      <p class="gate-error" id="gate-error">Mot de passe incorrect.</p>
+    </div>
+  </div>
+
+  <!-- ══ DASHBOARD ══ -->
+  <div id="dashboard">
+
+    <div class="dash-header">
+      <h1>🎀 Dashboard RSVPs</h1>
+      <div class="dash-header-actions">
+        <button class="btn-action btn-csv" onclick="exportCSV()">📥 Exporter CSV</button>
+        <a href="index.html" class="btn-action btn-back">← Retour au site</a>
+        <button class="btn-action btn-clear" onclick="clearData()">🗑 Vider</button>
+      </div>
+    </div>
+
+    <div class="dash-inner">
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number total" id="stat-total">0</div>
+          <div class="stat-label">Total réponses</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number vient" id="stat-vient">0</div>
+          <div class="stat-label">✅ Viennent</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number nvient" id="stat-nvient">0</div>
+          <div class="stat-label">❌ Ne viennent pas</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number guests" id="stat-guests">0</div>
+          <div class="stat-label">👥 Personnes attendues</div>
+        </div>
+      </div>
+
+      <!-- Setup Formspree -->
+      <div class="setup-card">
+        <h2>📧 Recevoir les RSVPs par email</h2>
+        <div id="formspree-status" style="margin-bottom:16px"></div>
+        <ul class="setup-steps">
+          <li>
+            <span class="step-num">1</span>
+            <span>Allez sur <strong>formspree.io</strong> et créez un compte gratuit avec votre email</span>
+          </li>
+          <li>
+            <span class="step-num">2</span>
+            <span>Cliquez <strong>"New Form"</strong> → donnez un nom (ex: Eden Pool Party)</span>
+          </li>
+          <li>
+            <span class="step-num">3</span>
+            <span>Copiez l'<strong>ID du formulaire</strong> (ex: <code>xpwzqkjb</code>)</span>
+          </li>
+          <li>
+            <span class="step-num">4</span>
+            <span>Ouvrez <strong>index.html</strong> et remplacez <code>XXXXXXXX</code> par votre ID dans l'action du formulaire</span>
+          </li>
+          <li>
+            <span class="step-num">5</span>
+            <span>✅ Vous recevrez désormais un <strong>email</strong> pour chaque RSVP !</span>
+          </li>
+        </ul>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:16px;align-items:center">
+          <a href="https://formspree.io" target="_blank" rel="noopener" class="setup-link">
+            🔗 Aller sur Formspree
+          </a>
+          <a href="https://formspree.io/forms" target="_blank" rel="noopener" class="setup-link" style="background:linear-gradient(135deg,#4285F4,#1a56d6)">
+            📊 Voir mon dashboard Formspree
+          </a>
+        </div>
+      </div>
+
+      <!-- Table des RSVPs -->
+      <div class="rsvp-table-card">
+        <div class="rsvp-table-header">
+          <h2>📋 Réponses reçues</h2>
+          <span class="rsvp-count" id="rsvp-count">0 réponse(s)</span>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Nom</th>
+                <th>Présence</th>
+                <th>Adultes</th>
+                <th>Enfants</th>
+                <th>Téléphone</th>
+                <th>Email</th>
+                <th>Message</th>
+              </tr>
+            </thead>
+            <tbody id="rsvp-tbody">
+              <tr>
+                <td colspan="8">
+                  <div class="empty-state">
+                    <span class="empty-icon">📭</span>
+                    <p>Aucune réponse enregistrée sur cet appareil.</p>
+                    <p style="margin-top:8px;font-size:0.8rem;opacity:0.7">Les RSVPs soumis depuis d'autres appareils arrivent par email (configurez Formspree ci-dessus).</p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="formspree-link">
+        <div>
+          <p>💡 <strong>Toutes les réponses</strong> soumises depuis n'importe quel appareil sont visibles dans votre dashboard Formspree.</p>
+          <p style="margin-top:4px;font-size:0.82rem;opacity:0.8">Les réponses ci-dessus sont celles soumises sur cet appareil uniquement (via le cache local).</p>
+        </div>
+        <a href="https://formspree.io/forms" target="_blank" rel="noopener">
+          📊 Dashboard Formspree
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    var ADMIN_PASSWORD = "Eden2026";
+
+    function login() {
+      var input = document.getElementById("gate-input");
+      var error = document.getElementById("gate-error");
+      if (input.value === ADMIN_PASSWORD) {
+        document.getElementById("gate").style.display = "none";
+        document.getElementById("dashboard").style.display = "block";
+        loadData();
+      } else {
+        error.style.display = "block";
+        input.value = "";
+        input.focus();
+        input.style.borderColor = "#EF4444";
+        setTimeout(function() { input.style.borderColor = ""; }, 1200);
+      }
+    }
+
+    function loadData() {
+      var rsvps = [];
+      try {
+        rsvps = JSON.parse(localStorage.getItem("eden_rsvps") || "[]");
+      } catch(_) {}
+
+      // Stats
+      var total  = rsvps.length;
+      var vient  = rsvps.filter(r => r.presence && r.presence.toLowerCase().includes("viens")).length;
+      var nvient = rsvps.filter(r => r.presence && r.presence.toLowerCase().includes("pas")).length;
+      var adults = rsvps
+        .filter(r => r.presence && r.presence.toLowerCase().includes("viens"))
+        .reduce(function(acc, r) {
+          var n = parseInt((r.adults || "").replace(/[^0-9]/g, "")) || 1;
+          var c = parseInt((r.children || "").replace(/[^0-9]/g, "")) || 0;
+          return acc + n + c;
+        }, 0);
+
+      document.getElementById("stat-total").textContent  = total;
+      document.getElementById("stat-vient").textContent  = vient;
+      document.getElementById("stat-nvient").textContent = nvient;
+      document.getElementById("stat-guests").textContent = adults;
+      document.getElementById("rsvp-count").textContent  = total + " réponse(s)";
+
+      // Formspree status
+      var formAction = "";
+      try {
+        var iframe = new XMLHttpRequest();
+        // On vérifie le fichier index.html local
+        iframe.open("GET", "index.html", false);
+        iframe.send();
+        formAction = (iframe.responseText.match(/formspree\.io\/f\/([A-Za-z0-9]+)/) || [])[1] || "";
+      } catch(_) {}
+      var statusEl = document.getElementById("formspree-status");
+      if (formAction && formAction !== "XXXXXXXX") {
+        statusEl.innerHTML = '<span class="setup-status ok">✅ Formspree configuré (ID: ' + formAction + ')</span>';
+      } else {
+        statusEl.innerHTML = '<span class="setup-status nok">⚠️ Formspree non configuré — suivez les étapes ci-dessous</span>';
+      }
+
+      // Table
+      var tbody = document.getElementById("rsvp-tbody");
+      if (rsvps.length === 0) return;
+
+      tbody.innerHTML = "";
+      rsvps.slice().reverse().forEach(function(r) {
+        var vient = r.presence && r.presence.toLowerCase().includes("viens");
+        var date = r.date ? new Date(r.date).toLocaleDateString("fr-FR", {
+          day:"2-digit", month:"2-digit", year:"2-digit",
+          hour:"2-digit", minute:"2-digit"
+        }) : "—";
+        var tr = document.createElement("tr");
+        tr.innerHTML =
+          "<td>" + escHtml(date) + "</td>" +
+          "<td><strong>" + escHtml(r.name || "—") + "</strong></td>" +
+          "<td><span class='badge " + (vient ? "oui" : "non") + "'>" + (vient ? "✅ Vient" : "❌ Ne vient pas") + "</span></td>" +
+          "<td>" + escHtml(r.adults || "—") + "</td>" +
+          "<td>" + escHtml(r.children || "—") + "</td>" +
+          "<td>" + escHtml(r.phone || "—") + "</td>" +
+          "<td>" + escHtml(r.email || "—") + "</td>" +
+          "<td style='max-width:200px;word-break:break-word'>" + escHtml(r.message || "—") + "</td>";
+        tbody.appendChild(tr);
+      });
+    }
+
+    function escHtml(str) {
+      return String(str)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;");
+    }
+
+    function exportCSV() {
+      var rsvps = [];
+      try { rsvps = JSON.parse(localStorage.getItem("eden_rsvps") || "[]"); } catch(_) {}
+      if (!rsvps.length) { alert("Aucune donnée à exporter."); return; }
+
+      var headers = ["Date","Nom","Présence","Adultes","Enfants","Téléphone","Email","Message"];
+      var rows = rsvps.map(function(r) {
+        return [
+          r.date ? new Date(r.date).toLocaleString("fr-FR") : "",
+          r.name, r.presence, r.adults, r.children, r.phone, r.email, r.message
+        ].map(function(v) { return '"' + String(v||"").replace(/"/g,'""') + '"'; }).join(",");
+      });
+
+      var csv = "﻿" + headers.join(",") + "\n" + rows.join("\n");
+      var blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url; a.download = "eden-rsvps.csv";
+      document.body.appendChild(a); a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function clearData() {
+      if (!confirm("Supprimer toutes les réponses locales ? (Celles envoyées par email via Formspree ne seront pas supprimées.)")) return;
+      localStorage.removeItem("eden_rsvps");
+      loadData();
+    }
+  </script>
+</body>
+</html>

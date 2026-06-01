@@ -1,204 +1,347 @@
 /* =====================================================
-   EDEN INVITATION — script.js
+   EDEN INVITATION — MINNIE POOL PARTY — SCRIPT
    ===================================================== */
 
-/* ---- 1. CONFETTIS AU CHARGEMENT ---- */
+// ══ CONFIG ══
+// Remplacez XXXXXXXX par votre ID Formspree (formspree.io)
+var CONFIG = {
+  FORMSPREE_ID: "XXXXXXXX",
+  ADMIN_PASSWORD: "Eden2026",
+  EVENT: {
+    title:    "🎀 Minnie Pool Party - Eden 2 ans",
+    start:    "20260621T130000Z",   // 15h00 Paris = 13h00 UTC
+    end:      "20260621T170000Z",   // 19h00 Paris = 17h00 UTC
+    location: "18 Avenue de la Côte d'Azur, 13008 Marseille",
+    description: "Eden fête ses 2 ans ! Pool Party à 15h00. Amenez votre maillot de bain 💖",
+  }
+};
+
+// ══ CONFETTI AU CHARGEMENT ══
 (function launchConfetti() {
-  const colors = ['#FF69B4', '#E8006E', '#ffffff', '#1A1A1A', '#87CEEB', '#FFB6C1'];
-
-  function fire(particleRatio, opts) {
-    confetti(Object.assign({}, {
-      origin: { y: 0.55 },
-      colors: colors,
-      scalar: 1.1,
-    }, opts, {
-      particleCount: Math.floor(180 * particleRatio),
-    }));
-  }
-
-  function burst() {
-    fire(0.25, { spread: 26, startVelocity: 55 });
-    fire(0.2,  { spread: 60 });
-    fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
-    fire(0.1,  { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
-    fire(0.1,  { spread: 120, startVelocity: 45 });
-  }
-
-  window.addEventListener('load', function () {
-    setTimeout(burst, 400);
-    setTimeout(burst, 1300);
+  if (typeof confetti !== "function") return;
+  window.addEventListener("load", function () {
+    window.setTimeout(function () {
+      var colors = ["#FFD700","#FF69B4","#E8006E","#FFC0CB","#ffffff","#FFB6C1","#FF1493"];
+      confetti({ particleCount:90, spread:80, startVelocity:38, origin:{x:0.25,y:0.28}, colors:colors, scalar:1.1 });
+      window.setTimeout(function () {
+        confetti({ particleCount:90, spread:80, startVelocity:38, origin:{x:0.75,y:0.28}, colors:colors, scalar:1.1 });
+      }, 320);
+      window.setTimeout(function () {
+        confetti({ particleCount:70, spread:130, startVelocity:22, origin:{x:0.5,y:0}, colors:colors, scalar:0.9 });
+      }, 750);
+      window.setTimeout(function () {
+        confetti({ particleCount:45, spread:60, startVelocity:30, origin:{x:0.5,y:0.35}, colors:colors, shapes:["circle"], scalar:0.75 });
+      }, 1400);
+    }, 500);
   });
 })();
 
+// ══ DÉCOR DYNAMIQUE ══
+(function createDecor() {
+  var layer = document.getElementById("deco-layer");
+  if (!layer) return;
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var small = window.innerWidth < 640;
 
-/* ---- 2. COMPTE À REBOURS ---- */
-(function initCountdown() {
-  const targetDate = new Date('2026-06-21T15:00:00');
-
-  const daysEl    = document.getElementById('days');
-  const hoursEl   = document.getElementById('hours');
-  const minutesEl = document.getElementById('minutes');
-  const secondsEl = document.getElementById('seconds');
-
-  function pad(n) { return String(n).padStart(2, '0'); }
-
-  function tick() {
-    const now  = new Date();
-    const diff = targetDate - now;
-
-    if (diff <= 0) {
-      daysEl.textContent = hoursEl.textContent = minutesEl.textContent = secondsEl.textContent = '00';
-      return;
+  if (!reduced) {
+    var petalColors = ["#FF69B4","#FFB6C1","#FFC0CB","#E8006E","#FF1493"];
+    var pc = small ? 10 : 20;
+    for (var i = 0; i < pc; i++) {
+      var p = document.createElement("div");
+      p.className = "petal";
+      var sz = 9 + Math.random() * 8;
+      p.style.cssText = "left:"+Math.random()*100+"vw;width:"+sz+"px;height:"+(sz*1.3)+"px;background:"+petalColors[i%5]+";opacity:"+(0.5+Math.random()*0.45)+";border-radius:"+(i%2?"50% 0 50% 0":"0 50% 0 50%")+";animation-duration:"+(8+Math.random()*10)+"s;animation-delay:"+(-(Math.random()*14))+"s;";
+      layer.appendChild(p);
     }
-
-    const days    = Math.floor(diff / 86400000);
-    const hours   = Math.floor((diff % 86400000) / 3600000);
-    const minutes = Math.floor((diff % 3600000)  / 60000);
-    const seconds = Math.floor((diff % 60000)    / 1000);
-
-    daysEl.textContent    = pad(days);
-    hoursEl.textContent   = pad(hours);
-    minutesEl.textContent = pad(minutes);
-    secondsEl.textContent = pad(seconds);
+    var bc = small ? 7 : 14;
+    for (var j = 0; j < bc; j++) {
+      var b = document.createElement("div");
+      b.className = "bubble";
+      var bs = 14 + Math.random() * 32;
+      b.style.cssText = "left:"+Math.random()*96+"vw;width:"+bs+"px;height:"+bs+"px;animation-duration:"+(12+Math.random()*14)+"s;animation-delay:"+(-(Math.random()*18))+"s;";
+      layer.appendChild(b);
+    }
   }
 
+  var sc = reduced ? 5 : (small ? 8 : 16);
+  for (var k = 0; k < sc; k++) {
+    var s = document.createElement("div");
+    s.className = "star";
+    var ss = 4 + Math.random() * 7;
+    s.style.cssText = "left:"+(4+Math.random()*92)+"vw;top:"+(5+Math.random()*85)+"vh;width:"+ss+"px;height:"+ss+"px;animation-duration:"+(1.2+Math.random()*2.5)+"s;animation-delay:"+(-(Math.random()*3))+"s;";
+    layer.appendChild(s);
+  }
+
+  var hearts = ["💕","💗","💖","💓","🩷"];
+  var hc = reduced ? 0 : (small ? 8 : 16);
+  for (var h = 0; h < hc; h++) {
+    var el = document.createElement("span");
+    el.className = "heart";
+    el.textContent = hearts[h % hearts.length];
+    el.style.cssText = "left:"+Math.random()*90+"vw;bottom:"+Math.random()*30+"vh;font-size:"+(0.7+Math.random()*0.9)+"rem;animation-duration:"+(11+Math.random()*14)+"s;animation-delay:"+(-(Math.random()*14))+"s;";
+    layer.appendChild(el);
+  }
+})();
+
+// ══ CALENDRIER & RAPPEL ══
+(function initCalendar() {
+  var ev = CONFIG.EVENT;
+
+  // Google Calendar
+  var gcalBtn = document.getElementById("btn-gcal");
+  if (gcalBtn) {
+    gcalBtn.href = "https://calendar.google.com/calendar/render?action=TEMPLATE"
+      + "&text=" + encodeURIComponent(ev.title)
+      + "&dates=" + ev.start + "/" + ev.end
+      + "&details=" + encodeURIComponent(ev.description)
+      + "&location=" + encodeURIComponent(ev.location);
+  }
+
+  // Outlook
+  var outlookBtn = document.getElementById("btn-outlook");
+  if (outlookBtn) {
+    outlookBtn.href = "https://outlook.live.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent"
+      + "&subject=" + encodeURIComponent(ev.title)
+      + "&startdt=2026-06-21T13:00:00Z"
+      + "&enddt=2026-06-21T17:00:00Z"
+      + "&body=" + encodeURIComponent(ev.description)
+      + "&location=" + encodeURIComponent(ev.location);
+  }
+
+  // Apple / iPhone (.ics download)
+  var icalBtn = document.getElementById("btn-ical");
+  if (icalBtn) {
+    icalBtn.addEventListener("click", function () {
+      var ics = [
+        "BEGIN:VCALENDAR",
+        "VERSION:2.0",
+        "CALSCALE:GREGORIAN",
+        "PRODID:-//Eden Pool Party 2026//FR",
+        "BEGIN:VEVENT",
+        "DTSTART:" + ev.start,
+        "DTEND:" + ev.end,
+        "SUMMARY:" + ev.title,
+        "DESCRIPTION:" + ev.description.replace(/\n/g, "\\n"),
+        "LOCATION:" + ev.location.replace(/,/g, "\\,"),
+        "BEGIN:VALARM",
+        "ACTION:DISPLAY",
+        "TRIGGER:-P3D",
+        "DESCRIPTION:Rappel : Pool Party Eden dans 3 jours !",
+        "END:VALARM",
+        "BEGIN:VALARM",
+        "ACTION:DISPLAY",
+        "TRIGGER:-PT2H",
+        "DESCRIPTION:Aujourd'hui ! Pool Party Eden à 15h00 💖",
+        "END:VALARM",
+        "END:VEVENT",
+        "END:VCALENDAR"
+      ].join("\r\n");
+
+      var blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url;
+      a.download = "eden-pool-party-2ans.ics";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+  }
+
+  // Rappel via Notification API
+  var remindBtn = document.getElementById("btn-remind");
+  var remindText = document.getElementById("remind-text");
+  var remindNote = document.getElementById("remind-note");
+
+  if (remindBtn) {
+    // Restore state
+    if (localStorage.getItem("eden_reminder") === "true") {
+      remindBtn.classList.add("actif");
+      if (remindText) remindText.textContent = "✅ Rappel activé !";
+      if (remindNote) remindNote.textContent = "Vous serez notifié(e) avant la fête.";
+    }
+
+    remindBtn.addEventListener("click", function () {
+      if (!("Notification" in window)) {
+        if (remindNote) remindNote.textContent = "Ajoutez l'événement au calendrier pour un rappel.";
+        return;
+      }
+      Notification.requestPermission().then(function (permission) {
+        if (permission === "granted") {
+          // Notification immédiate de confirmation
+          new Notification("🎀 Rappel Eden Pool Party activé !", {
+            body: "21 Juin 2026 · 15H00 · 18 Av. de la Côte d'Azur, Marseille\nOn vous attend ! 💖",
+            tag: "eden-pool-party"
+          });
+          localStorage.setItem("eden_reminder", "true");
+          remindBtn.classList.add("actif");
+          if (remindText) remindText.textContent = "✅ Rappel activé !";
+          if (remindNote) remindNote.textContent = "Notification confirmée. Ajoutez aussi au calendrier pour un rappel automatique.";
+        } else if (permission === "denied") {
+          if (remindNote) remindNote.textContent = "Notifications bloquées. Ajoutez l'événement au calendrier à la place.";
+        }
+      });
+    });
+  }
+})();
+
+// ══ COUNTDOWN ══
+(function initCountdown() {
+  var target = new Date("2026-06-21T15:00:00");
+  var dEl = document.getElementById("days");
+  var hEl = document.getElementById("hours");
+  var mEl = document.getElementById("minutes");
+  var sEl = document.getElementById("seconds");
+  function pad(v) { return String(v).padStart(2, "0"); }
+  function tick() {
+    var diff = Math.max(target.getTime() - Date.now(), 0);
+    if (dEl) dEl.textContent = pad(Math.floor(diff / 86400000));
+    if (hEl) hEl.textContent = pad(Math.floor((diff % 86400000) / 3600000));
+    if (mEl) mEl.textContent = pad(Math.floor((diff % 3600000) / 60000));
+    if (sEl) sEl.textContent = pad(Math.floor((diff % 60000) / 1000));
+  }
   tick();
   setInterval(tick, 1000);
 })();
 
-
-/* ---- 3. SCROLL REVEAL (IntersectionObserver) ---- */
+// ══ SCROLL REVEAL ══
 (function initReveal() {
-  const observer = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
+  var items = document.querySelectorAll(".reveal");
+  if (!items.length) return;
+  if (!("IntersectionObserver" in window)) {
+    items.forEach(function (el) { el.classList.add("visible"); });
+    return;
+  }
+  var observer = new IntersectionObserver(
+    function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("visible");
         observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.12 });
-
-  document.querySelectorAll('.reveal').forEach(function (el) {
-    observer.observe(el);
-  });
+      });
+    },
+    { threshold: 0.1, rootMargin: "0px 0px -30px" }
+  );
+  items.forEach(function (el) { observer.observe(el); });
 })();
 
-
-/* ---- 4. BOUTON MUSIQUE ---- */
+// ══ MUSIQUE ══
 (function initMusic() {
-  const btn   = document.getElementById('music-btn');
-  const audio = document.getElementById('bg-music');
-  let playing = false;
-
-  btn.addEventListener('click', function () {
-    if (playing) {
-      audio.pause();
-      btn.textContent = '🎵';
-      btn.setAttribute('aria-label', 'Activer la musique');
+  var btn = document.getElementById("music-btn");
+  var audio = document.getElementById("bg-music");
+  if (!btn || !audio) return;
+  btn.addEventListener("click", function () {
+    if (audio.paused) {
+      audio.volume = 0.28;
+      audio.play().then(function () {
+        btn.textContent = "⏸";
+        btn.setAttribute("aria-label", "Désactiver la musique");
+      }).catch(function () {});
     } else {
-      audio.volume = 0.35;
-      audio.play().catch(function () {});
-      btn.textContent = '🔇';
-      btn.setAttribute('aria-label', 'Désactiver la musique');
+      audio.pause();
+      btn.textContent = "🎵";
+      btn.setAttribute("aria-label", "Activer la musique");
     }
-    playing = !playing;
   });
 })();
 
-
-/* ---- 5. RSVP — Soumission AJAX ---- */
+// ══ RSVP — envoi Formspree + sauvegarde locale ══
 (function initRsvp() {
-  const form       = document.getElementById('rsvp-form');
-  const successDiv = document.getElementById('rsvp-success');
-  const submitBtn  = document.getElementById('submit-btn');
-  const submitText = document.getElementById('submit-text');
-  const submitLoad = document.getElementById('submit-loading');
+  var form = document.getElementById("rsvp-form");
+  var success = document.getElementById("rsvp-success");
+  var submitBtn = document.getElementById("submit-btn");
+  var submitText = document.getElementById("submit-text");
+  var submitLoading = document.getElementById("submit-loading");
+  var nameInput = document.getElementById("name");
+  if (!form || !submitBtn || !nameInput) return;
 
-  if (!form) return;
-
-  form.addEventListener('submit', async function (e) {
+  form.addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    const nameVal = document.getElementById('name').value.trim();
-    if (!nameVal) {
-      document.getElementById('name').focus();
-      document.getElementById('name').style.borderColor = '#E8006E';
+    // Validation : nom + présence
+    if (!nameInput.value.trim()) {
+      nameInput.focus();
+      nameInput.style.borderColor = "#E8006E";
+      return;
+    }
+    var presenceChecked = form.querySelector('input[name="presence"]:checked');
+    if (!presenceChecked) {
+      var options = form.querySelectorAll('.presence-label');
+      options.forEach(function(o) { o.style.borderColor = "#E8006E"; });
       return;
     }
 
-    /* Show loading */
     submitBtn.disabled = true;
-    submitText.style.display = 'none';
-    submitLoad.style.display = 'inline';
+    if (submitText) submitText.style.display = "none";
+    if (submitLoading) submitLoading.style.display = "inline";
 
-    const data = new FormData(form);
+    // Données du formulaire
+    var fd = new FormData(form);
+    var rsvpData = {
+      date:     new Date().toISOString(),
+      name:     fd.get("name") || "",
+      phone:    fd.get("phone") || "",
+      email:    fd.get("email") || "",
+      presence: fd.get("presence") || "",
+      adults:   fd.get("adults") || "",
+      children: fd.get("children") || "",
+      message:  fd.get("message") || ""
+    };
 
+    // Sauvegarde locale (pour la page admin)
     try {
-      const res = await fetch(form.action, {
-        method: 'POST',
-        body: data,
-        headers: { 'Accept': 'application/json' },
-      });
+      var stored = JSON.parse(localStorage.getItem("eden_rsvps") || "[]");
+      stored.push(rsvpData);
+      localStorage.setItem("eden_rsvps", JSON.stringify(stored));
+    } catch (_) {}
 
-      if (res.ok) {
-        form.style.display = 'none';
-        successDiv.style.display = 'block';
-        successDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        /* Extra confetti burst on success */
-        confetti({
-          particleCount: 120,
-          spread: 90,
-          origin: { y: 0.6 },
-          colors: ['#FF69B4', '#E8006E', '#ffffff', '#1A1A1A'],
+    // Envoi Formspree
+    var formConfigured = !form.action.includes("XXXXXXXX");
+    if (formConfigured) {
+      try {
+        var res = await fetch(form.action, {
+          method: "POST",
+          body: fd,
+          headers: { Accept: "application/json" }
         });
-      } else {
-        throw new Error('Server error');
+        if (!res.ok) throw new Error();
+      } catch (_) {
+        submitBtn.disabled = false;
+        if (submitText) submitText.style.display = "inline";
+        if (submitLoading) submitLoading.style.display = "none";
+        alert("Erreur d'envoi. Réessayez ou configurez Formspree dans admin.html.");
+        return;
       }
-    } catch (_err) {
-      submitBtn.disabled = false;
-      submitText.style.display = 'inline';
-      submitLoad.style.display = 'none';
-      alert('Une erreur s\'est produite. Merci de réessayer ou de contacter directement les organisateurs.');
+    }
+
+    // Succès
+    form.style.display = "none";
+    if (success) {
+      var vient = rsvpData.presence.includes("viens");
+      success.querySelector("h3").textContent = vient
+        ? "Merci ! On t'attend le 21 Juin 💖"
+        : "Merci pour ta réponse 💕";
+      success.style.display = "block";
+      success.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+    if (typeof confetti === "function") {
+      confetti({ particleCount:130, spread:90, startVelocity:34, origin:{y:0.6},
+        colors:["#FFD700","#FF69B4","#E8006E","#FFC0CB","#ffffff"] });
     }
   });
 
-  /* Reset field error styling on input */
-  document.getElementById('name').addEventListener('input', function () {
-    this.style.borderColor = '';
+  nameInput.addEventListener("input", function () {
+    nameInput.style.borderColor = "";
   });
 })();
 
-
-/* ---- 6. SCROLL REVEAL GALERIE ---- */
-(function initGalerieReveal() {
-  const galerieCards = document.querySelectorAll('.galerie-card');
-
-  const observer = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.15 });
-
-  galerieCards.forEach(function (card) {
-    card.style.opacity = '0';
-    card.style.transform = 'translateY(30px)';
-    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    observer.observe(card);
-  });
-})();
-
-
-/* ---- 7. SMOOTH SCROLL pour le bouton "Ouvrir l'invitation" ---- */
-document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
-  anchor.addEventListener('click', function (e) {
-    const target = document.querySelector(this.getAttribute('href'));
-    if (target) {
-      e.preventDefault();
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+// ══ SMOOTH SCROLL ══
+document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+  link.addEventListener("click", function (e) {
+    var target = document.querySelector(link.getAttribute("href"));
+    if (!target) return;
+    e.preventDefault();
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
   });
 });
