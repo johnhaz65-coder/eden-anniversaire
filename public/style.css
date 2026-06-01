@@ -228,7 +228,12 @@ body::before {
   filter: drop-shadow(0 8px 24px rgba(232,0,110,0.35));
   animation: minnieBounce 2.6s ease-in-out infinite;
 }
-img[src*="minnie"] { background: transparent !important; mix-blend-mode: multiply; }
+img[src*="minnie"] {
+  mix-blend-mode: multiply;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
 @keyframes minnieBounce {
   0%, 100% { transform: translateY(0) rotate(-4deg); }
   50%       { transform: translateY(-14px) rotate(-4deg); }
