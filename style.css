@@ -122,32 +122,32 @@ body::before {
 }
 
 /* =====================================================
-   HERO — MOBILE FIRST
+   HERO — 100VH PLEIN ÉCRAN
    ===================================================== */
-
-/* Base : colonne centrée, priorité mobile */
 .hero {
   position: relative;
   z-index: 2;
   min-height: 100vh;
-  min-height: 100svh;
+  height: 100svh;
   width: 100%;
-  padding: 16px 20px 140px;
+  margin: 0;
+  padding: 60px 20px 70px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 16px;
   overflow: hidden;
   text-align: center;
+  background: transparent;
 }
 
 /* ── COIN FESTIF — haut droite ── */
 .corner-festif {
   position: absolute;
   top: 0; right: 0;
-  width: clamp(70px, 18vw, 170px);
-  height: clamp(120px, 26vw, 270px);
+  width: clamp(100px, 18vw, 190px);
+  height: clamp(190px, 30vw, 300px);
   z-index: 6;
   pointer-events: none;
 }
@@ -188,8 +188,8 @@ body::before {
   position: absolute;
   bottom: 8%; left: 50%;
   transform: translateX(-50%);
-  width: clamp(28px, 4.5vw, 46px);
-  height: clamp(28px, 4.5vw, 46px);
+  width: clamp(30px, 5vw, 46px);
+  height: clamp(30px, 5vw, 46px);
   border-radius: 50%;
   background: conic-gradient(
     #FF69B4 0deg 90deg, #fff 90deg 180deg,
@@ -216,68 +216,50 @@ body::before {
   50%       { transform: scale(1.2) rotate(10deg); opacity: 1; }
 }
 
-/* ── PHOTO EDEN — top centré mobile · droite desktop ── */
-.hero-photo-wrap {
-  position: relative;
+/* ── MINNIE GAUCHE — absolute bottom-left ── */
+.hero-minnie-wrap {
+  position: absolute;
+  bottom: -20px;
+  left: -10px;
   z-index: 5;
-  flex-shrink: 0;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
 }
-.photo-frame {
-  position: relative;
-  width: clamp(210px, 60vw, 260px);
-  height: clamp(210px, 60vw, 260px);
-  border-radius: 50%;
-  overflow: hidden;
-  border: 6px solid #E8006E;
-  outline: 4px solid white;
-  box-shadow:
-    0 0 0 8px rgba(232,0,110,0.2),
-    0 16px 50px rgba(232,0,110,0.4);
-  background: var(--pink-pale);
-}
-.photo-frame::before { display: none; }
-.hero-photo {
-  width: 100%; height: 100%;
-  border-radius: 50%;
-  object-fit: cover; object-position: center top;
+.hero-minnie {
+  height: 420px;
+  width: auto;
   display: block;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  transform: rotate(-5deg);
+  filter: drop-shadow(4px 0px 8px rgba(232,0,110,0.3));
+  animation: minnieBounce 2.6s ease-in-out infinite;
 }
-.photo-placeholder {
-  display: none; width: 100%; height: 100%;
-  border-radius: 50%; background: var(--pink-pale);
-  align-items: center; justify-content: center;
-  font-size: 4rem;
+img[src*="minnie"], .minnie-img, .hero-minnie img, [class*="minnie"] img {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
 }
-.photo-sparkles { position: absolute; inset: 0; pointer-events: none; }
-.sparkle {
-  position: absolute; color: var(--gold); font-size: 1.3rem;
-  animation: sparkleAnim 2s ease-in-out infinite;
-}
-.s1 { top: 4%;    left: 50%;  animation-delay: 0s;   }
-.s2 { top: 50%;   right: 1%;  animation-delay: 0.5s; }
-.s3 { bottom: 4%; left: 50%;  animation-delay: 1s;   }
-.s4 { top: 50%;   left: 1%;   animation-delay: 1.5s; }
-@keyframes sparkleAnim {
-  0%, 100% { transform: scale(0.5) rotate(0deg); opacity: 0.35; }
-  50%       { transform: scale(1.4) rotate(22deg); opacity: 1; }
+@keyframes minnieBounce {
+  0%, 100% { transform: rotate(-5deg) translateY(0); }
+  50%       { transform: rotate(-5deg) translateY(-14px); }
 }
 
-/* ── CONTENU TEXTUEL ── */
+/* ── CONTENU CENTRAL ── */
 .hero-content {
-  position: relative;
-  z-index: 5;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  flex-shrink: 0;
-  max-width: 400px;
-  width: 100%;
+  position: relative; z-index: 5;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 10px;
+  flex-shrink: 0; max-width: 440px;
 }
 
-/* "Splish Splash" — masqué sur mobile pour gagner de la place */
 .hero-splash {
-  display: none;
   font-family: 'Great Vibes', cursive;
   font-size: 1.8rem;
   color: var(--white);
@@ -292,7 +274,7 @@ body::before {
     3px  3px 0 rgba(255,255,255,0.9),
     -1px -1px 0 rgba(255,255,255,0.6),
     0 6px 20px rgba(192,0,90,0.3);
-  font-size: clamp(1.6rem, 5.5vw, 4rem);
+  font-size: clamp(2.5rem, 6vw, 4rem);
   line-height: 1.1;
   margin: 0;
 }
@@ -300,7 +282,7 @@ body::before {
 /* ── EDEN — Grand nom glitter ── */
 .hero-name {
   font-family: 'Pacifico', cursive;
-  font-size: clamp(3.8rem, 19vw, 8rem);
+  font-size: clamp(5rem, 16vw, 8rem);
   line-height: 1;
   margin: 0;
   background: linear-gradient(
@@ -330,7 +312,7 @@ body::before {
 
 .hero-eden {
   font-family: 'Great Vibes', cursive;
-  font-size: clamp(1.4rem, 5.5vw, 3rem);
+  font-size: clamp(1.7rem, 6vw, 3rem);
   color: #fff;
   margin: 0;
   animation: neonEden 2.2s ease-in-out infinite;
@@ -354,15 +336,15 @@ body::before {
 
 .hero-meta {
   display: flex; flex-wrap: wrap;
-  justify-content: center; gap: 8px;
-  margin-top: 6px;
+  justify-content: center; gap: 10px;
+  margin-top: 4px;
 }
 .hero-badge {
   background: rgba(255,255,255,0.93);
   color: var(--pink-deep);
   font-weight: 900;
   font-size: clamp(0.78rem, 3vw, 1rem);
-  padding: 10px 18px;
+  padding: 10px 20px;
   border-radius: 50px;
   box-shadow:
     0 4px 14px rgba(192,0,90,0.22),
@@ -377,15 +359,15 @@ body::before {
   background-size: 300% 300%;
   animation: borderAnim 3s ease infinite;
   box-shadow: 0 8px 32px rgba(192,0,90,0.5);
-  margin-top: 4px;
+  margin-top: 6px;
 }
 .btn-cta-inner {
   display: block;
   font-family: 'Nunito', sans-serif; font-weight: 900;
-  font-size: 0.9rem;
+  font-size: clamp(0.9rem, 3.5vw, 1.1rem);
   letter-spacing: 0.05em; color: var(--white);
   background: linear-gradient(135deg, var(--pink-hot), var(--pink-deep));
-  border-radius: 58px; padding: 13px 28px;
+  border-radius: 58px; padding: 16px 36px;
   animation: ctaPulse 2s ease-in-out infinite;
 }
 @keyframes borderAnim {
@@ -398,75 +380,115 @@ body::before {
   50%       { box-shadow: inset 0 0 22px rgba(255,255,255,0.18); }
 }
 
-/* ── MINNIE — toujours absolue bas-gauche ── */
-.hero-minnie-wrap {
-  position: absolute;
-  bottom: -10px;
-  left: -10px;
-  z-index: 4;
-  pointer-events: none;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-  border-radius: 0 !important;
+/* ── PHOTO EDEN ── */
+.hero-photo-wrap {
+  position: relative; z-index: 5; flex-shrink: 0;
 }
-.hero-minnie {
-  height: 155px;
-  width: auto;
+.photo-frame {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 6px solid #E8006E;
+  outline: 4px solid white;
+  box-shadow:
+    0 0 0 8px rgba(232,0,110,0.2),
+    0 20px 60px rgba(232,0,110,0.4);
+  background: var(--pink-pale);
+}
+.photo-frame::before { display: none; }
+.hero-photo {
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  object-fit: cover; object-position: center top;
   display: block;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
-  transform: rotate(-5deg);
-  filter: drop-shadow(4px 0 8px rgba(232,0,110,0.3));
-  animation: minnieBounce 2.6s ease-in-out infinite;
 }
-img[src*="minnie"], .hero-minnie {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
+.photo-placeholder {
+  display: none; width: 100%; height: 100%;
+  border-radius: 50%; background: var(--pink-pale);
+  align-items: center; justify-content: center;
+  font-size: 4rem;
 }
-@keyframes minnieBounce {
-  0%, 100% { transform: rotate(-5deg) translateY(0); }
-  50%       { transform: rotate(-5deg) translateY(-12px); }
+.photo-sparkles { position: absolute; inset: 0; pointer-events: none; }
+.sparkle {
+  position: absolute; color: var(--gold); font-size: 1.3rem;
+  animation: sparkleAnim 2s ease-in-out infinite;
+}
+.s1 { top: 4%; left: 50%; animation-delay: 0s; }
+.s2 { top: 50%; right: 1%; animation-delay: 0.5s; }
+.s3 { bottom: 4%; left: 50%; animation-delay: 1s; }
+.s4 { top: 50%; left: 1%; animation-delay: 1.5s; }
+@keyframes sparkleAnim {
+  0%, 100% { transform: scale(0.5) rotate(0deg); opacity: 0.35; }
+  50%       { transform: scale(1.4) rotate(22deg); opacity: 1; }
 }
 
-/* ── DESKTOP 768px+ : photo droite · Minnie gauche · texte centre ── */
+/* ── LAYOUT DESKTOP HERO ── */
 @media (min-width: 768px) {
   .hero {
     flex-direction: row;
     justify-content: center;
     align-items: center;
     padding: 60px 60px 60px 320px;
-    gap: 48px;
     text-align: center;
+    gap: 48px;
   }
-  .hero-photo-wrap { order: 2; flex-shrink: 0; }
-  .hero-content    { order: 1; align-items: center; max-width: 440px; }
-  .hero-meta       { justify-content: center; }
+  .hero-content     { order: 1; align-items: center; }
+  .hero-photo-wrap  { order: 2; }
+  .hero-meta        { justify-content: center; }
+  .hero-name        { font-size: clamp(5rem, 12vw, 8rem); }
+}
 
+/* ── ORDRE MOBILE ── */
+@media (max-width: 767px) {
+  .hero {
+    flex-direction: column;
+    gap: 16px;
+    padding: 50px 16px 90px;
+    align-items: center;
+  }
   .hero-minnie-wrap {
-    position: absolute;
-    bottom: -20px;
-    left: -10px;
+    position: relative;
+    bottom: auto; left: auto;
+    order: 2;
+    transform: none;
   }
-  .hero-minnie { height: 420px; }
+  .hero-photo-wrap  { order: 1; }
+  .hero-content     { order: 3; }
+  .hero-minnie      { height: 280px; width: auto; transform: rotate(-5deg); }
+  .hero-name        { font-size: clamp(5rem, 22vw, 6.5rem); }
+  .corner-festif    { width: clamp(80px, 22vw, 130px); height: clamp(140px, 30vw, 200px); }
+  .photo-frame      { width: 220px; height: 220px; }
+}
 
-  .photo-frame { width: 320px; height: 320px; }
-
-  .hero-splash  { display: block; }
-  .hero-title   { font-size: clamp(2.5rem, 6vw, 4rem); }
-  .hero-name    { font-size: clamp(5rem, 12vw, 8rem); }
-  .hero-eden    { font-size: clamp(1.7rem, 6vw, 3rem); }
-  .hero-badge   { font-size: clamp(0.78rem, 3vw, 1rem); }
-  .btn-cta-inner { font-size: clamp(0.9rem, 3.5vw, 1.1rem); padding: 16px 36px; }
-
-  .corner-festif {
-    width: clamp(100px, 18vw, 190px);
-    height: clamp(190px, 30vw, 300px);
+@media (max-width: 600px) {
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    min-height: 100vh;
+    position: relative;
+  }
+  .hero-photo-wrap { order: 1; margin-top: 10px; }
+  .hero-content    { order: 2; text-align: center; }
+  .hero-minnie-wrap {
+    order: 3;
+    position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
+    margin: 0 auto;
+  }
+  .hero-minnie {
+    height: 250px !important;
+    transform: none !important;
+  }
+  .hero-photo-wrap img {
+    width: 220px !important;
+    height: 220px !important;
+    object-fit: cover;
+    object-position: center top;
   }
 }
 
@@ -870,7 +892,7 @@ select {
 .reveal.visible { opacity: 1; transform: translateY(0) scale(1); }
 
 /* =====================================================
-   RESPONSIVE GÉNÉRAL
+   RESPONSIVE
    ===================================================== */
 @media (max-width: 767px) {
   .cards-grid { grid-template-columns: 1fr; }
@@ -884,8 +906,8 @@ select {
   .rsvp-section { padding: 56px 16px 70px; }
 }
 @media (max-width: 360px) {
-  .hero-title { font-size: 1.5rem; }
-  .hero-name  { font-size: 3.4rem; }
+  .hero-title { font-size: 1.9rem; }
+  .hero-name { font-size: 4.2rem; }
   .countdown-number { font-size: 1.85rem; min-width: 50px; }
 }
 
