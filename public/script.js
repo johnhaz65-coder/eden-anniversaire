@@ -246,31 +246,95 @@ var CONFIG = {
   });
 })();
 
-// ══ RSVP — envoi Formspree ══
-const rsvpForm = document.getElementById('rsvp-form');
-if (rsvpForm) {
-  rsvpForm.addEventListener('submit', async function(e) {
+// ══ RSVP — envoi Formspree + sauvegarde locale ══
+(function initRsvp() {
+  var form = document.getElementById("rsvp-form");
+  var success = document.getElementById("rsvp-success");
+  var submitBtn = document.getElementById("submit-btn");
+  var submitText = document.getElementById("submit-text");
+  var submitLoading = document.getElementById("submit-loading");
+  var nameInput = document.getElementById("name");
+  if (!form || !submitBtn || !nameInput) return;
+
+  form.addEventListener("submit", async function (e) {
     e.preventDefault();
-    e.stopPropagation();
-    const btn = this.querySelector('[type="submit"]');
-    if (btn) { btn.disabled = true; btn.textContent = '⏳ Envoi...'; }
-    const response = await fetch('https://formspree.io/f/mwvzgpnv', {
-      method: 'POST',
-      body: new FormData(this),
-      headers: { 'Accept': 'application/json' }
-    }).catch(() => null);
-    if (response && response.ok) {
-      rsvpForm.innerHTML = '<div style="text-align:center;padding:60px 20px;font-family:Pacifico,cursive;color:#E8006E;font-size:1.8rem;line-height:2">🎀<br>Merci !<br>On t\'attend le 21 Juin !<br>🎀</div>';
-      if (typeof confetti === "function") {
-        confetti({ particleCount:130, spread:90, startVelocity:34, origin:{y:0.6},
-          colors:["#FFD700","#FF69B4","#E8006E","#FFC0CB","#ffffff"] });
+
+    // Validation : nom + présence
+    if (!nameInput.value.trim()) {
+      nameInput.focus();
+      nameInput.style.borderColor = "#E8006E";
+      return;
+    }
+    var presenceChecked = form.querySelector('input[name="presence"]:checked');
+    if (!presenceChecked) {
+      var options = form.querySelectorAll('.presence-label');
+      options.forEach(function(o) { o.style.borderColor = "#E8006E"; });
+      return;
+    }
+
+    submitBtn.disabled = true;
+    if (submitText) submitText.style.display = "none";
+    if (submitLoading) submitLoading.style.display = "inline";
+
+    // Données du formulaire
+    var fd = new FormData(form);
+    var rsvpData = {
+      date:     new Date().toISOString(),
+      name:     fd.get("name") || "",
+      phone:    fd.get("phone") || "",
+      email:    fd.get("email") || "",
+      presence: fd.get("presence") || "",
+      adults:   fd.get("adults") || "",
+      children: fd.get("children") || "",
+      message:  fd.get("message") || ""
+    };
+
+    // Sauvegarde locale (pour la page admin)
+    try {
+      var stored = JSON.parse(localStorage.getItem("eden_rsvps") || "[]");
+      stored.push(rsvpData);
+      localStorage.setItem("eden_rsvps", JSON.stringify(stored));
+    } catch (_) {}
+
+    // Envoi Formspree
+    var formConfigured = !form.action.includes("XXXXXXXX");
+    if (formConfigured) {
+      try {
+        var res = await fetch(form.action, {
+          method: "POST",
+          body: fd,
+          headers: { Accept: "application/json" }
+        });
+        if (!res.ok) throw new Error();
+      } catch (_) {
+        submitBtn.disabled = false;
+        if (submitText) submitText.style.display = "inline";
+        if (submitLoading) submitLoading.style.display = "none";
+        alert("Erreur d'envoi. Réessayez ou configurez Formspree dans admin.html.");
+        return;
       }
-    } else {
-      if (btn) { btn.disabled = false; btn.textContent = '🎀 Confirmer ma présence'; }
-      alert('Erreur envoi. Vérifie ta connexion.');
+    }
+
+    // Succès
+    form.style.display = "none";
+    if (success) {
+      var vient = rsvpData.presence.includes("viens");
+      success.querySelector("h3").textContent = vient
+        ? "Merci ! On t'attend le 21 Juin 💖"
+        : "Merci pour ta réponse 💕";
+      success.style.display = "block";
+      success.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+    if (typeof confetti === "function") {
+      confetti({ particleCount:130, spread:90, startVelocity:34, origin:{y:0.6},
+        colors:["#FFD700","#FF69B4","#E8006E","#FFC0CB","#ffffff"] });
     }
   });
-}
+
+  nameInput.addEventListener("input", function () {
+    nameInput.style.borderColor = "";
+  });
+})();
 
 // ══ SMOOTH SCROLL ══
 document.querySelectorAll('a[href^="#"]').forEach(function (link) {
