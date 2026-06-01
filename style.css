@@ -462,6 +462,36 @@ img[src*="minnie"], .minnie-img, .hero-minnie img, [class*="minnie"] img {
   .photo-frame      { width: 220px; height: 220px; }
 }
 
+@media (max-width: 600px) {
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    min-height: 100vh;
+    position: relative;
+  }
+  .hero-photo-wrap { order: 1; margin-top: 10px; }
+  .hero-content    { order: 2; text-align: center; }
+  .hero-minnie-wrap {
+    order: 3;
+    position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
+    margin: 0 auto;
+  }
+  .hero-minnie {
+    height: 250px !important;
+    transform: none !important;
+  }
+  .hero-photo-wrap img {
+    width: 220px !important;
+    height: 220px !important;
+    object-fit: cover;
+    object-position: center top;
+  }
+}
+
 /* =====================================================
    TICKER DÉFILANT
    ===================================================== */
