@@ -246,44 +246,31 @@ var CONFIG = {
   });
 })();
 
-// ══ RSVP — envoi Formspree ajax ══
-document.addEventListener('DOMContentLoaded', () => {
-  const form = document.getElementById('rsvp-form');
-  if (!form) return;
-
-  form.addEventListener('submit', async (e) => {
+// ══ RSVP — envoi Formspree ══
+const rsvpForm = document.getElementById('rsvp-form');
+if (rsvpForm) {
+  rsvpForm.addEventListener('submit', async function(e) {
     e.preventDefault();
-    const btn = form.querySelector('button[type="submit"]');
-    const originalText = btn.innerHTML;
-    btn.innerHTML = '⏳ Envoi en cours...';
-    btn.disabled = true;
-
-    try {
-      const res = await fetch('https://formspree.io/f/mwvzgpnv', {
-        method: 'POST',
-        body: new FormData(form),
-        headers: { 'Accept': 'application/json' }
-      });
-
-      if (res.ok) {
-        form.innerHTML = '<div style="text-align:center;padding:40px;font-family:Pacifico,cursive;color:#E8006E;font-size:1.5rem;line-height:2">🎀<br>Merci !<br>On t\'attend le 21 Juin !<br>🎀</div>';
-        if (typeof confetti === "function") {
-          confetti({ particleCount:130, spread:90, startVelocity:34, origin:{y:0.6},
-            colors:["#FFD700","#FF69B4","#E8006E","#FFC0CB","#ffffff"] });
-        }
-      } else {
-        const data = await res.json();
-        btn.innerHTML = originalText;
-        btn.disabled = false;
-        alert('Erreur : ' + (data.error || 'Réessayez'));
+    e.stopPropagation();
+    const btn = this.querySelector('[type="submit"]');
+    if (btn) { btn.disabled = true; btn.textContent = '⏳ Envoi...'; }
+    const response = await fetch('https://formspree.io/f/mwvzgpnv', {
+      method: 'POST',
+      body: new FormData(this),
+      headers: { 'Accept': 'application/json' }
+    }).catch(() => null);
+    if (response && response.ok) {
+      rsvpForm.innerHTML = '<div style="text-align:center;padding:60px 20px;font-family:Pacifico,cursive;color:#E8006E;font-size:1.8rem;line-height:2">🎀<br>Merci !<br>On t\'attend le 21 Juin !<br>🎀</div>';
+      if (typeof confetti === "function") {
+        confetti({ particleCount:130, spread:90, startVelocity:34, origin:{y:0.6},
+          colors:["#FFD700","#FF69B4","#E8006E","#FFC0CB","#ffffff"] });
       }
-    } catch(err) {
-      btn.innerHTML = originalText;
-      btn.disabled = false;
-      alert('Erreur réseau, réessayez');
+    } else {
+      if (btn) { btn.disabled = false; btn.textContent = '🎀 Confirmer ma présence'; }
+      alert('Erreur envoi. Vérifie ta connexion.');
     }
   });
-});
+}
 
 // ══ SMOOTH SCROLL ══
 document.querySelectorAll('a[href^="#"]').forEach(function (link) {

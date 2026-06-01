@@ -222,11 +222,11 @@ body::before {
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  border-radius: 0 !important;
   padding: 0 !important;
+  border-radius: 0 !important;
 }
 .hero-minnie {
-  width: clamp(130px, 22vw, 280px);
+  width: clamp(200px, 30vw, 350px);
   display: block;
   mix-blend-mode: multiply;
   background: transparent !important;
@@ -235,7 +235,7 @@ body::before {
   border-radius: 0 !important;
   animation: minnieBounce 2.6s ease-in-out infinite;
 }
-img[src*="minnie"], .minnie-img, .hero-minnie, .hero-minnie img, [class*="minnie"] img {
+img[src*="minnie"], .minnie-img, .hero-minnie img, [class*="minnie"] img {
   mix-blend-mode: multiply;
   background: transparent !important;
   border: none !important;
