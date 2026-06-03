@@ -156,18 +156,31 @@ var CONFIG = {
   var submitText = document.getElementById("submit-text");
   var submitLoading = document.getElementById("submit-loading");
   var nameInput = document.getElementById("name");
+  var status = document.getElementById("form-status");
   if (!form || !submitBtn || !nameInput) return;
 
   form.addEventListener("submit", async function (event) {
     event.preventDefault();
+    if (status) {
+      status.textContent = "";
+      status.className = "form-status";
+    }
 
     if (!nameInput.value.trim()) {
+      if (status) {
+        status.textContent = "Merci d'indiquer votre prénom et nom.";
+        status.className = "form-status is-error";
+      }
       nameInput.focus();
       return;
     }
 
     var presenceChecked = form.querySelector('input[name="presence"]:checked');
     if (!presenceChecked) {
+      if (status) {
+        status.textContent = "Merci d'indiquer si vous serez présent.";
+        status.className = "form-status is-error";
+      }
       var firstPresence = form.querySelector('input[name="presence"]');
       if (firstPresence) firstPresence.focus();
       return;
@@ -184,8 +197,8 @@ var CONFIG = {
       phone: formData.get("phone") || "",
       email: formData.get("email") || "",
       presence: formData.get("presence") || "",
-      adults: formData.get("adults") || "",
-      children: formData.get("children") || "",
+      adultes: formData.get("adultes") || "",
+      enfants: formData.get("enfants") || "",
       message: formData.get("message") || ""
     };
 
@@ -196,26 +209,27 @@ var CONFIG = {
     } catch (_) {}
 
     try {
-      var response = await fetch(form.action, {
+      var response = await fetch("https://formspree.io/f/mwvzgpnv", {
         method: "POST",
-        body: formData,
-        headers: { Accept: "application/json" }
+        body: new FormData(form),
+        headers: { "Accept": "application/json" }
       });
       if (!response.ok) throw new Error("Formspree error");
     } catch (_) {
       submitBtn.disabled = false;
       if (submitText) submitText.hidden = false;
       if (submitLoading) submitLoading.hidden = true;
-      alert("Erreur d'envoi. Merci de réessayer dans un instant.");
+      if (status) {
+        status.textContent = "Erreur d’envoi. Vérifiez votre connexion puis réessayez.";
+        status.className = "form-status is-error";
+      }
       return;
     }
 
     form.hidden = true;
     if (success) {
       var title = success.querySelector("h3");
-      if (title && !rsvpData.presence.includes("viens")) {
-        title.textContent = "Merci pour ta réponse.";
-      }
+      if (title) title.textContent = "Merci, votre réponse a bien été envoyée 🎀";
       success.hidden = false;
       success.scrollIntoView({ behavior: "smooth", block: "center" });
     }

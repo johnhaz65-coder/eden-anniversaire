@@ -180,7 +180,7 @@
           <div class="form-row">
             <div class="form-group">
               <label for="adults">Adultes</label>
-              <select id="adults" name="adults">
+              <select id="adults" name="adultes">
                 <option value="" disabled selected>Nombre</option>
                 <option>1 adulte</option>
                 <option>2 adultes</option>
@@ -191,7 +191,7 @@
             </div>
             <div class="form-group">
               <label for="children">Enfants</label>
-              <select id="children" name="children">
+              <select id="children" name="enfants">
                 <option value="" disabled selected>Nombre</option>
                 <option>0 enfant</option>
                 <option>1 enfant</option>
@@ -212,10 +212,11 @@
             <span id="submit-text">Confirmer ma réponse</span>
             <span id="submit-loading" hidden>Envoi en cours...</span>
           </button>
+          <p class="form-status" id="form-status" aria-live="polite"></p>
         </form>
 
         <div id="rsvp-success" class="rsvp-success" hidden aria-live="polite">
-          <h3>Merci ! On t'attend le 21 Juin.</h3>
+          <h3>Merci, votre réponse a bien été envoyée 🎀</h3>
           <p>À très bientôt pour célébrer Eden.</p>
         </div>
       </div>
