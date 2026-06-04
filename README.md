@@ -11,20 +11,13 @@ Site d'invitation pour les 2 ans d'Eden, thème Minnie Mouse Pool Party.
 Copie ta photo dans `public/eden.jpg`.
 Format recommandé : carré (ex. 400×400px), JPEG ou WebP.
 
-### 2. Configurer Formspree (RSVP)
+### 2. Formspree (RSVP)
 
-1. Va sur [formspree.io](https://formspree.io) → crée un compte gratuit
-2. Clique **+ New Form**, donne-lui un nom (ex. "Eden Birthday RSVP")
-3. Copie l'ID du formulaire (format `xxxxxxxx`)
-4. Dans `public/index.html`, remplace :
-   ```
-   action="https://formspree.io/f/XXXXXXXX"
-   ```
-   par ton vrai ID, ex. :
-   ```
-   action="https://formspree.io/f/xpzgkrbn"
-   ```
-5. Dans Formspree → Settings, configure l'email de notification (le tien)
+Le formulaire RSVP est actif avec l'endpoint confirmé :
+
+```html
+action="https://formspree.io/f/mwvzgpnv"
+```
 
 ### 3. Ajouter la musique (optionnel)
 
@@ -108,8 +101,8 @@ eden-invitation/
 | Date de l'événement | `index.html` + `script.js` ligne `targetDate` |
 | Adresse | `index.html` → `[Adresse à remplir]` |
 | Couleurs | `style.css` → variables `:root` |
-| Deadline RSVP | `index.html` → "Avant le 1er Juin 2026" |
-| Photo | `public/eden.jpg` |
+| Deadline RSVP | `index.html` → "Réponse souhaitée avant le 14 Juin 2026" |
+| Photo | `public/eden_garden.jpg` |
 
 ---
 

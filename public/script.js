@@ -193,7 +193,7 @@ var CONFIG = {
     var formData = new FormData(form);
     var rsvpData = {
       date: new Date().toISOString(),
-      name: formData.get("name") || "",
+      prenom: formData.get("prenom") || "",
       phone: formData.get("phone") || "",
       email: formData.get("email") || "",
       presence: formData.get("presence") || "",
@@ -209,7 +209,7 @@ var CONFIG = {
     } catch (_) {}
 
     try {
-      var response = await fetch("https://formspree.io/f/mwvzgpnv", {
+      var response = await fetch(form.action, {
         method: "POST",
         body: new FormData(form),
         headers: { "Accept": "application/json" }
@@ -220,7 +220,7 @@ var CONFIG = {
       if (submitText) submitText.hidden = false;
       if (submitLoading) submitLoading.hidden = true;
       if (status) {
-        status.textContent = "Erreur d’envoi. Vérifiez votre connexion puis réessayez.";
+        status.textContent = "Erreur d'envoi. Merci de réessayer.";
         status.className = "form-status is-error";
       }
       return;
@@ -229,7 +229,7 @@ var CONFIG = {
     form.hidden = true;
     if (success) {
       var title = success.querySelector("h3");
-      if (title) title.textContent = "Merci, votre réponse a bien été envoyée 🎀";
+      if (title) title.textContent = "Merci 💖 Votre réponse a bien été envoyée pour l'anniversaire d'Eden !";
       success.hidden = false;
       success.scrollIntoView({ behavior: "smooth", block: "center" });
     }
