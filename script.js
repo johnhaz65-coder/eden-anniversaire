@@ -134,16 +134,43 @@ function fireConfetti() {
   setTimeout(() => confetti({ particleCount: 80, spread: 110, origin: { x: 0.85, y: 0.6 }, colors }), 700);
 }
 
+// Confettis anniversaire à l'ouverture
 window.addEventListener('load', () => {
   if (typeof confetti !== 'function') return;
+  const duration = 4000;
+  const end = Date.now() + duration;
+
+  const colors = ['#E8006E', '#FF69B4', '#ffffff', '#FFB6C1', '#C0005A', '#1a1a1a'];
+
+  (function frame() {
+    confetti({
+      particleCount: 6,
+      angle: 60,
+      spread: 55,
+      origin: { x: 0 },
+      colors: colors
+    });
+    confetti({
+      particleCount: 6,
+      angle: 120,
+      spread: 55,
+      origin: { x: 1 },
+      colors: colors
+    });
+    if (Date.now() < end) requestAnimationFrame(frame);
+  }());
+
+  // Explosion centrale après 0.5s
   setTimeout(() => {
     confetti({
-      particleCount: 100,
-      spread: 68,
-      origin: { y: 0.38 },
-      colors: ['#E8006E', '#FF69B4', '#FFF0F5', '#C0005A', '#FFB6D9'],
+      particleCount: 120,
+      spread: 100,
+      origin: { y: 0.4 },
+      colors: colors,
+      shapes: ['circle', 'square'],
+      scalar: 1.2
     });
-  }, 900);
+  }, 500);
 });
 
 /* ═══════════════════════════════════════════════════════
